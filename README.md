@@ -18,3 +18,34 @@
 1. Zklonuj repo
 2. W terminalu `npm i`
 3. Odpal dev server `npm run dev`
+
+## DB Schema
+
+### Car Offer (`/cars`)
+
+```
+{
+    manufacturer: string
+    model: string
+    year: string
+    price: number
+    features: string[]
+    photo_url: string?
+    miles: number?
+    location: {
+        latitude: number
+        longitude: number
+    }?
+}
+```
+
+### Contact Request (`/contact_requests`)
+
+```
+{
+    offer_id: string (car offer doc id)
+    message: string
+    phone_number: string?
+    email: string?
+}
+```
