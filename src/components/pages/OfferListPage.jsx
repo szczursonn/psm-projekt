@@ -1,13 +1,21 @@
 import { getFirestore, collection } from "firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { firebaseApp } from "../firebase";
-import OfferListItem from "./OfferListItem";
-import LoadingSpinner from "./LoadingSpinner";
+import { firebaseApp } from "../../firebase";
+import OfferListItem from "../OfferListItem";
+import LoadingSpinner from "../LoadingSpinner";
+import { useNavigate } from "../../navigation";
+import OfferDetails from "./OfferDetailsPage";
 
-const OfferList = ({ onOfferClick }) => {
+const OfferListPage = () => {
   const [snapshot, loading, error] = useCollection(
     collection(getFirestore(firebaseApp), "cars")
   );
+
+  const navigate = useNavigate();
+
+  const onOfferClick = (offerId) => {
+    navigate(OfferDetails, { offerId });
+  };
 
   return (
     <div className="container-fluid">
@@ -40,4 +48,4 @@ const OfferList = ({ onOfferClick }) => {
   );
 };
 
-export default OfferList;
+export default OfferListPage;

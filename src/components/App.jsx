@@ -1,52 +1,31 @@
-import { useState } from "react";
-import OfferList from "./OfferList";
+import { createElement, useState } from "react";
+import OfferList from "./pages/OfferListPage";
 import Navbar from "./Navbar";
-import OfferDetails from "./OfferDetails";
-import SignInModal from "./SignInModal";
-import OfferCreateForm from "./OfferCreateForm";
 import Footer from "./Footer";
+import { NavigationContext } from "../navigation";
+
+const DEFAULT_PAGE = {
+  pageFn: OfferList,
+  params: {},
+};
 
 const App = () => {
-  const [signInModalVisible, setSignInModalVisible] = useState(false);
-  const [isAddingOffer, setIsAddingOffer] = useState(false);
-  const [selectedOfferId, setSelectedOfferId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
 
-  const goToOffer = (offerId) => {
-    setIsAddingOffer(false);
-    setSelectedOfferId(offerId);
-  };
-
-  const goHome = () => {
-    setIsAddingOffer(false);
-    setSelectedOfferId(null);
+  const navigate = (pageFn, params = {}) => {
+    console.log(`Navigation: ${currentPage.pageFn.name} -> ${pageFn.name}`);
+    setCurrentPage({
+      pageFn,
+      params,
+    });
   };
 
   return (
-    <>
-      {signInModalVisible && (
-        <SignInModal
-          visible={signInModalVisible}
-          close={() => setSignInModalVisible(false)}
-        />
-      )}
-      <Navbar
-        onHomeClick={goHome}
-        onSignInClick={() => setSignInModalVisible(true)}
-        onAddOfferClick={() => setIsAddingOffer(true)}
-      />
-      {isAddingOffer ? (
-        <OfferCreateForm goToOffer={goToOffer} />
-      ) : (
-        <>
-          {selectedOfferId ? (
-            <OfferDetails carId={selectedOfferId} />
-          ) : (
-            <OfferList onOfferClick={goToOffer} />
-          )}
-        </>
-      )}
+    <NavigationContext.Provider value={navigate}>
+      <Navbar />
+      {createElement(currentPage.pageFn, currentPage.params)}
       <Footer />
-    </>
+    </NavigationContext.Provider>
   );
 };
 

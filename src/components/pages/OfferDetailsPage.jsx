@@ -1,11 +1,11 @@
 import { doc, getFirestore } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
-import { firebaseApp } from "../firebase";
-import LoadingSpinner from "./LoadingSpinner";
+import { firebaseApp } from "../../firebase";
+import LoadingSpinner from "../LoadingSpinner";
 
-const OfferDetails = ({ carId }) => {
+const OfferDetailsPage = ({ offerId }) => {
   const [car, loading, error] = useDocumentData(
-    doc(getFirestore(firebaseApp), "cars", carId)
+    doc(getFirestore(firebaseApp), "cars", offerId)
   );
 
   return (
@@ -25,7 +25,7 @@ const OfferDetails = ({ carId }) => {
       )}
       {car && (
         <>
-          <h2>{carId}</h2>
+          <h2>{offerId}</h2>
           <h2>{car.model}</h2>
         </>
       )}
@@ -33,4 +33,4 @@ const OfferDetails = ({ carId }) => {
   );
 };
 
-export default OfferDetails;
+export default OfferDetailsPage;
