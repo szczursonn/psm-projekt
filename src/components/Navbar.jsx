@@ -1,6 +1,7 @@
 import { getAuth, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { firebaseApp } from "../firebase";
+import LoadingSpinner from "./LoadingSpinner";
 
 const Navbar = ({ onHomeClick, onSignInClick, onAddOfferClick }) => {
   const [user, userLoading] = useAuthState(getAuth(firebaseApp));
@@ -25,8 +26,8 @@ const Navbar = ({ onHomeClick, onSignInClick, onAddOfferClick }) => {
           </a>
           <div className="d-flex">
             {userLoading ? (
-              <div className="spinner-grow me-3" role="status">
-                <span className="visually-hidden">Loading...</span>
+              <div className="me-3">
+                <LoadingSpinner />
               </div>
             ) : (
               <>

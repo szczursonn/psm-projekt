@@ -1,6 +1,7 @@
 import { doc, getFirestore } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "../firebase";
+import LoadingSpinner from "./LoadingSpinner";
 
 const OfferDetails = ({ carId }) => {
   const [car, loading, error] = useDocumentData(
@@ -12,11 +13,9 @@ const OfferDetails = ({ carId }) => {
       {loading && (
         <div
           className="d-flex justify-content-center align-items-center"
-          style={{ marginTop: "300px" }}
+          style={{ marginTop: "250px", marginBottom: "250px" }}
         >
-          <div className="spinner-grow" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
+          <LoadingSpinner />
         </div>
       )}
       {error && (
