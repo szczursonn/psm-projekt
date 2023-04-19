@@ -1,10 +1,12 @@
+import { formatCurrency } from "../utils";
+
 const OfferListItem = ({ car, onClick }) => {
   let subtitle = car.year ?? "";
   if (subtitle) {
     subtitle += " · ";
   }
   if (car.price !== undefined) {
-    subtitle += `${car.price}$`;
+    subtitle += formatCurrency(car.price);
   }
 
   return (

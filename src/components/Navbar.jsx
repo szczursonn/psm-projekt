@@ -3,6 +3,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { firebaseApp } from "../firebase";
 import LoadingSpinner from "./LoadingSpinner";
 import { useNavigate } from "react-router-dom";
+import { PATHS } from "../consts";
 
 const Navbar = () => {
   const [user, userLoading] = useAuthState(getAuth(firebaseApp));
@@ -38,7 +39,7 @@ const Navbar = () => {
                   <>
                     <button
                       className="btn btn-outline-success me-2"
-                      onClick={() => navigate("/offer-create")}
+                      onClick={() => navigate(`/${PATHS.OFFER_CREATE}`)}
                     >
                       Add offer
                     </button>
@@ -52,7 +53,7 @@ const Navbar = () => {
                 ) : (
                   <button
                     className="btn btn-outline-primary"
-                    onClick={() => navigate("/sign-in")}
+                    onClick={() => navigate(`/${PATHS.SIGN_IN}`)}
                   >
                     Sign in
                   </button>

@@ -2,16 +2,22 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { Outlet, Route, Routes } from "react-router-dom";
 import OfferListPage from "./pages/OfferListPage";
-import OfferDetailsPage from "./pages/OfferDetailsPage"
+import OfferDetailsPage from "./pages/OfferDetailsPage";
 import SignInPage from "./pages/SignInPage";
+import { PATHS } from "../consts";
+import OfferCreatePage from "./pages/OfferCreatePage";
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<OfferListPage />} />
-        <Route path="sign-in" element={<SignInPage />} />
-        <Route path="offers/:offerId" element={<OfferDetailsPage />} />
+        <Route path={PATHS.SIGN_IN} element={<SignInPage />} />
+        <Route
+          path={`${PATHS.OFFER_DETAILS}/:offerId`}
+          element={<OfferDetailsPage />}
+        />
+        <Route path={PATHS.OFFER_CREATE} element={<OfferCreatePage />} />
       </Route>
     </Routes>
   );

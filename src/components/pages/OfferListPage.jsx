@@ -4,6 +4,7 @@ import { firebaseApp } from "../../firebase";
 import OfferListItem from "../OfferListItem";
 import LoadingSpinner from "../LoadingSpinner";
 import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../consts";
 
 const OfferListPage = () => {
   const [snapshot, loading, error] = useCollection(
@@ -13,7 +14,7 @@ const OfferListPage = () => {
   const navigate = useNavigate();
 
   const onOfferClick = (offerId) => {
-    navigate(`/offers/${offerId}`);
+    navigate(`/${PATHS.OFFER_DETAILS}/${offerId}`);
   };
 
   return (
