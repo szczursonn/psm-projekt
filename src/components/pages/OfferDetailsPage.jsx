@@ -2,8 +2,11 @@ import { doc, getFirestore } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "../../firebase";
 import LoadingSpinner from "../LoadingSpinner";
+import { useParams } from "react-router-dom";
 
-const OfferDetailsPage = ({ offerId }) => {
+const OfferDetailsPage = () => {
+  const { offerId } = useParams();
+
   const [car, loading, error] = useDocumentData(
     doc(getFirestore(firebaseApp), "cars", offerId)
   );

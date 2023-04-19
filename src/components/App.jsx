@@ -1,31 +1,29 @@
-import { createElement, useState } from "react";
-import OfferList from "./pages/OfferListPage";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import { NavigationContext } from "../navigation";
-
-const DEFAULT_PAGE = {
-  pageFn: OfferList,
-  params: {},
-};
+import { Outlet, Route, Routes } from "react-router-dom";
+import OfferListPage from "./pages/OfferListPage";
+import OfferDetailsPage from "./pages/OfferDetailsPage"
+import SignInPage from "./pages/SignInPage";
 
 const App = () => {
-  const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE);
-
-  const navigate = (pageFn, params = {}) => {
-    console.log(`Navigation: ${currentPage.pageFn.name} -> ${pageFn.name}`);
-    setCurrentPage({
-      pageFn,
-      params,
-    });
-  };
-
   return (
-    <NavigationContext.Provider value={navigate}>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<OfferListPage />} />
+        <Route path="sign-in" element={<SignInPage />} />
+        <Route path="offers/:offerId" element={<OfferDetailsPage />} />
+      </Route>
+    </Routes>
+  );
+};
+
+const Layout = () => {
+  return (
+    <>
       <Navbar />
-      {createElement(currentPage.pageFn, currentPage.params)}
+      <Outlet />
       <Footer />
-    </NavigationContext.Provider>
+    </>
   );
 };
 

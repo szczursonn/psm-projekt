@@ -7,8 +7,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { firebaseApp } from "../../firebase";
-import { useNavigate } from "../../navigation";
-import OfferListPage from "./OfferListPage";
+import { useNavigate } from "react-router-dom";
 
 const firestoreErrors = {
   "auth/user-not-found": "User not found",
@@ -35,7 +34,7 @@ const SignInPage = () => {
     setError(null);
     try {
       await fn();
-      navigate(OfferListPage);
+      navigate(-1);
     } catch (err) {
       setError(err);
       console.error(err);

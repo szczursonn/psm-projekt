@@ -3,8 +3,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "../../firebase";
 import OfferListItem from "../OfferListItem";
 import LoadingSpinner from "../LoadingSpinner";
-import { useNavigate } from "../../navigation";
-import OfferDetails from "./OfferDetailsPage";
+import { useNavigate } from "react-router-dom";
 
 const OfferListPage = () => {
   const [snapshot, loading, error] = useCollection(
@@ -14,7 +13,7 @@ const OfferListPage = () => {
   const navigate = useNavigate();
 
   const onOfferClick = (offerId) => {
-    navigate(OfferDetails, { offerId });
+    navigate(`/offers/${offerId}`);
   };
 
   return (
