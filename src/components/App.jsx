@@ -6,6 +6,7 @@ import OfferDetailsPage from "./pages/OfferDetailsPage";
 import SignInPage from "./pages/SignInPage";
 import { PATHS } from "../consts";
 import OfferCreatePage from "./pages/OfferCreatePage";
+import ViewChat from "./pages/Chat";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           element={<OfferDetailsPage />}
         />
         <Route path={PATHS.OFFER_CREATE} element={<OfferCreatePage />} />
+        <Route path={PATHS.CHATS} element={<ViewChat />} />
       </Route>
     </Routes>
   );
