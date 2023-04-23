@@ -30,12 +30,9 @@
     year: string
     price: number
     features: string[]
-    photo_url: string?
     miles: number?
-    location: {
-        latitude: number
-        longitude: number
-    }?
+    location_osm_id: string?
+    photo_url: string?
 }
 ```
 
