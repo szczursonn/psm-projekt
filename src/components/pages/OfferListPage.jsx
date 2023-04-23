@@ -37,7 +37,7 @@ const OfferListPage = () => {
           {snapshot.docs.map((doc) => (
             <OfferListItem
               key={doc.id}
-              car={doc.data()}
+              offer={doc.data()}
               onClick={() => onOfferClick(doc.id)}
             />
           ))}
