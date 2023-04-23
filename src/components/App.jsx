@@ -1,5 +1,4 @@
 import Navbar from "./Navbar";
-import Footer from "./Footer";
 import { Outlet, Route, Routes } from "react-router-dom";
 import OfferListPage from "./pages/OfferListPage";
 import OfferDetailsPage from "./pages/OfferDetailsPage";
@@ -30,7 +29,6 @@ const Layout = () => {
     <>
       <Navbar />
       <Outlet />
-      <Footer />
     </>
   );
 };
