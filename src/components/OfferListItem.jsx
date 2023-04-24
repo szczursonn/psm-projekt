@@ -1,21 +1,7 @@
-import { formatCurrency, formatMinutesAgo } from "../utils";
-
-const fuelTypeLabels = {
-  petrol: "Petrol",
-  diesel: "Diesel",
-  lpg: "LPG",
-  hybrid: "Hybrid",
-  electric: "Electric",
-};
+import { formatCurrency, formatDaysAgo, getOfferSubtitle } from "../utils";
 
 const OfferListItem = ({ offer, onClick }) => {
-  const subtitle = [
-    offer.year,
-    typeof offer.miles === "number" && `${offer.miles} km`,
-    fuelTypeLabels[offer.fuel_type],
-  ]
-    .filter((x) => x)
-    .join(" · ");
+  const subtitle = getOfferSubtitle(offer);
 
   return (
     <div className="col-lg-2 col-md-4 col-sm-12">
@@ -41,7 +27,7 @@ const OfferListItem = ({ offer, onClick }) => {
             </h6>
             {offer.created_at && (
               <h6 className="card-subtitle text-muted">
-                {formatMinutesAgo(offer.created_at.toDate())}
+                {formatDaysAgo(offer.created_at.toDate())}
               </h6>
             )}
           </div>

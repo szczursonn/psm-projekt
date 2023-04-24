@@ -14,3 +14,11 @@ export const DEGREE_TO_METERS_MULTIPLIER = 111_139
 export const MINIMAL_MAP_CIRCLE_RADIUS = 500
 
 export const MAP_CIRCLE_FALLBACK_RADIUS = 1000
+
+export const FUEL_TYPE_LABELS = {
+    petrol: "Petrol",
+    diesel: "Diesel",
+    lpg: "LPG",
+    hybrid: "Hybrid",
+    electric: "Electric",
+};
