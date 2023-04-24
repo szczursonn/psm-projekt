@@ -32,6 +32,8 @@
     features: string[]
     miles: number?
     location_osm_id: string?
+    created_at: date
+    owner_id: string (user id)
     photo_url: string?
 }
 ```

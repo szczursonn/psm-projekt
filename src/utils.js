@@ -4,6 +4,12 @@ export const getUserLocale = () => navigator.language || 'en-us';
 
 export const formatCurrency = (amount) => new Intl.NumberFormat(getUserLocale(), { style: 'currency', currency: CURRENCY_UNIT, maximumFractionDigits: 0 }).format(amount);
 
+export const formatMinutesAgo = (date) => {
+    const formatter = new Intl.RelativeTimeFormat(getUserLocale(), { style: 'short' })
+    const daysDiff = Math.ceil(Math.abs(new Date() - date) / (1000 * 60 * 60 * 24))
+    return formatter.format(-daysDiff, 'day')
+}
+
 export const getLocation = async (searchString) => {
     const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(searchString)}&format=json&limit=1&accept-language=en-us`)
     if (!res.ok) {

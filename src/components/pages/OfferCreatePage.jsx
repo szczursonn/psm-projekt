@@ -6,6 +6,7 @@ import OfferCreateMediaStage from "../OfferCreateMediaStage";
 import LoadingSpinner from "../LoadingSpinner";
 import { PATHS } from "../../consts";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import {
   ref as storageRef,
   getStorage,
@@ -100,6 +101,8 @@ const OfferCreatePage = () => {
                 offer.location.osm_id
               }`
             : null,
+          created_at: new Date(),
+          owner_id: getAuth(firebaseApp).currentUser.uid,
           photo_url: photoUrl,
         }
       );

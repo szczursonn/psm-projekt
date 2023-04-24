@@ -18,7 +18,7 @@ const OfferListPage = () => {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid mb-4">
       {loading && (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -33,7 +33,7 @@ const OfferListPage = () => {
         </div>
       )}
       {snapshot && (
-        <div className="row align-items-start">
+        <div className="row align-items-start ms-1 me-1">
           {snapshot.docs.map((doc) => (
             <OfferListItem
               key={doc.id}
