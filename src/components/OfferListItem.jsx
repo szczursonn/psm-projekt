@@ -1,9 +1,18 @@
 import { formatCurrency, formatMinutesAgo } from "../utils";
 
+const fuelTypeLabels = {
+  petrol: "Petrol",
+  diesel: "Diesel",
+  lpg: "LPG",
+  hybrid: "Hybrid",
+  electric: "Electric",
+};
+
 const OfferListItem = ({ offer, onClick }) => {
   const subtitle = [
     offer.year,
     typeof offer.miles === "number" && `${offer.miles} km`,
+    fuelTypeLabels[offer.fuel_type],
   ]
     .filter((x) => x)
     .join(" · ");

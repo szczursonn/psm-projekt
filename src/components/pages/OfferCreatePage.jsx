@@ -104,6 +104,8 @@ const OfferCreatePage = () => {
           created_at: new Date(),
           owner_id: getAuth(firebaseApp).currentUser.uid,
           photo_url: photoUrl,
+          horses: offer.horses ? parseInt(offer.horses) : null,
+          fuel_type: offer.fuelType || null,
         }
       );
 

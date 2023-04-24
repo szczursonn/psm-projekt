@@ -13,6 +13,8 @@ const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
         year: form.year.value,
         price: form.price.value,
         miles: form.miles.value,
+        horses: form.horses.value,
+        fuelType: form.fuelType.value,
       };
     },
   }));
@@ -76,6 +78,32 @@ const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
           step={1}
           defaultValue={offerToCreate.miles}
         ></input>
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Horsepower</label>
+        <input
+          className="form-control"
+          name="horses"
+          type="number"
+          min={0}
+          step={1}
+          defaultValue={offerToCreate.horses}
+        ></input>
+      </div>
+      <div className="mb-3">
+        <label className="form-label">Fuel type</label>
+        <select
+          className="form-select"
+          name="fuelType"
+          defaultValue={offerToCreate.fuelType}
+        >
+          <option>Select fuel type</option>
+          <option value="petrol">Petrol</option>
+          <option value="diesel">Diesel</option>
+          <option value="lpg">LPG</option>
+          <option value="hybrid">Hybrid</option>
+          <option value="electric">Electric</option>
+        </select>
       </div>
     </form>
   );

@@ -35,6 +35,8 @@
     created_at: date
     owner_id: string (user id)
     photo_url: string?
+    horses: number?
+    fuel_type: string?
 }
 ```
 
