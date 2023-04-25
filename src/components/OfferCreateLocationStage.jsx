@@ -1,7 +1,7 @@
 import { useEffect, useState, useImperativeHandle, forwardRef } from "react";
-import { getLocation, getMapCircleRadius } from "../utils";
+import { getMapCircleRadius } from "../utils";
+import { getLocation, getLocationReverse } from "../locationAPI";
 import MapWithCircle from "./MapWithCircle";
-import { getLocationReverse } from "../utils";
 
 const DEBOUNCE_MS = 1500;
 

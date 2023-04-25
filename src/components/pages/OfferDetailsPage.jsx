@@ -3,14 +3,14 @@ import { useDocumentData } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "../../firebase";
 import LoadingSpinner from "../LoadingSpinner";
 import MapWithCircle from "../MapWithCircle";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   formatCurrency,
   formatDaysAgo,
-  getLocationByOSMId,
   getMapCircleRadius,
   getOfferSubtitle,
 } from "../../utils";
+import { getLocationByOSMId } from "../../locationAPI";
 import { FUEL_TYPE_LABELS } from "../../consts";
 import { useEffect, useState } from "react";
 
@@ -22,6 +22,7 @@ const OfferDetailsPage = () => {
   );
 
   const [osmLocation, setOsmLocation] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (offer?.location_osm_id) {
@@ -69,19 +70,29 @@ const OfferDetailsPage = () => {
           <h3 className="text-danger fw-bold mt-3">
             {offer.price ? formatCurrency(offer.price) : "Ask for price"}
           </h3>
-          <div className="text-muted mt-3">
-            {offer.created_at && formatDaysAgo(offer.created_at)}
-          </div>
-          <div className="text-muted mt-1">ID: {offerId}</div>
+          <h5 className="mt-3">
+            {offer.created_at && formatDaysAgo(offer.created_at.toDate())}
+          </h5>
+          <h6 className="text-muted mt-1">ID: {offerId}</h6>
           <hr />
-          <button className="btn btn-primary">Contact owner</button>
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate(`/chats/${offer.owner_id}`)}
+          >
+            Contact owner
+          </button>
           <hr />
-          <h3>Features</h3>
-          <ul>
-            {offer.features?.map((feature) => (
-              <li key={feature}>{feature}</li>
-            ))}
-          </ul>
+          {offer.features && (
+            <>
+              <h3>Features</h3>
+              <ul>
+                {offer.features.map((feature) => (
+                  <li key={feature}>{feature}</li>
+                ))}
+              </ul>
+            </>
+          )}
+
           {offer && (
             <>
               <h3>Location</h3>

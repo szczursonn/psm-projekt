@@ -14,6 +14,7 @@ const firestoreErrors = {
   "auth/wrong-password": "Wrong password",
   "auth/popup-closed-by-user": "Sign in was cancelled",
   "auth/email-already-in-use": "Email already in use",
+  "auth/weak-password": "Password too weak",
 };
 
 const MODE = {

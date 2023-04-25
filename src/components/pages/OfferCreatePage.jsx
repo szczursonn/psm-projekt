@@ -120,8 +120,6 @@ const OfferCreatePage = () => {
 
   return (
     <div className="container-fluid mt-3">
-      <h2>Add offer</h2>
-
       {saving ? (
         <div
           className="d-flex justify-content-center align-items-center"
@@ -157,6 +155,8 @@ const OfferCreatePage = () => {
               }}
             ></div>
           </div>
+
+          <hr />
 
           {STAGE_COMPONENTS[stage] ? (
             createElement(STAGE_COMPONENTS[stage], {
