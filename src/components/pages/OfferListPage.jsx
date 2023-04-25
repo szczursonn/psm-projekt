@@ -2,10 +2,10 @@ import { getFirestore, collection } from "firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "../../firebase";
 import OfferListItem from "../OfferListItem";
-import LoadingSpinner from "../LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../consts";
 import { labels } from "../../labels";
+import FullPageLoadingSpinner from "../FullPageLoadingSpinner";
 
 const OfferListPage = () => {
   const [snapshot, loading, error] = useCollection(
@@ -20,14 +20,7 @@ const OfferListPage = () => {
 
   return (
     <div className="container-fluid mb-4">
-      {loading && (
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{ marginTop: "250px", marginBottom: "250px" }}
-        >
-          <LoadingSpinner />
-        </div>
-      )}
+      {loading && <FullPageLoadingSpinner />}
       {error && (
         <div className="alert alert-danger" role="alert">
           {labels.THERE_WAS_AN_UNEXPECTED_ERROR}: {error.message}

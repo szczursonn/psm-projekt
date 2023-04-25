@@ -1,11 +1,14 @@
-import Navbar from "./Navbar";
+import React from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
-import OfferListPage from "./pages/OfferListPage";
-import OfferDetailsPage from "./pages/OfferDetailsPage";
-import SignInPage from "./pages/SignInPage";
 import { PATHS } from "../consts";
-import OfferCreatePage from "./pages/OfferCreatePage";
-import ViewChat from "./pages/Chat";
+import Navbar from "./Navbar";
+import FullPageLoadingSpinner from "./FullPageLoadingSpinner";
+
+const OfferListPage = React.lazy(() => import("./pages/OfferListPage"));
+const SignInPage = React.lazy(() => import("./pages/SignInPage"));
+const OfferDetailsPage = React.lazy(() => import("./pages/OfferDetailsPage"));
+const OfferCreatePage = React.lazy(() => import("./pages/OfferCreatePage"));
+const ChatPage = React.lazy(() => import("./pages/Chat"));
 
 const App = () => {
   return (
@@ -18,7 +21,7 @@ const App = () => {
           element={<OfferDetailsPage />}
         />
         <Route path={PATHS.OFFER_CREATE} element={<OfferCreatePage />} />
-        <Route path={PATHS.CHATS} element={<ViewChat />} />
+        <Route path={PATHS.CHATS} element={<ChatPage />} />
       </Route>
     </Routes>
   );
@@ -28,7 +31,9 @@ const Layout = () => {
   return (
     <>
       <Navbar />
-      <Outlet />
+      <React.Suspense fallback={<FullPageLoadingSpinner />}>
+        <Outlet />
+      </React.Suspense>
     </>
   );
 };

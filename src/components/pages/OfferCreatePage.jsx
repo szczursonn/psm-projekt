@@ -3,7 +3,6 @@ import OfferCreateBasicInfoStage from "../OfferCreateBasicInfoStage";
 import OfferCreateFeaturesStage from "../OfferCreateFeaturesStage";
 import OfferCreateLocationStage from "../OfferCreateLocationStage";
 import OfferCreateMediaStage from "../OfferCreateMediaStage";
-import LoadingSpinner from "../LoadingSpinner";
 import { PATHS } from "../../consts";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
@@ -16,6 +15,7 @@ import { useUploadFile } from "react-firebase-hooks/storage";
 import { firebaseApp } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { labels } from "../../labels";
+import FullPageLoadingSpinner from "../FullPageLoadingSpinner";
 
 const STAGES = [
   { name: labels.BASIC_INFO, component: OfferCreateBasicInfoStage },
@@ -115,11 +115,7 @@ const OfferCreatePage = () => {
   return (
     <div className="container-fluid mt-3">
       {saving ? (
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{ marginTop: "250px", marginBottom: "250px" }}
-        >
-          <LoadingSpinner />
+        <FullPageLoadingSpinner>
           {uploading && (
             <div className="progress mb-2">
               <div
@@ -134,7 +130,7 @@ const OfferCreatePage = () => {
               ></div>
             </div>
           )}
-        </div>
+        </FullPageLoadingSpinner>
       ) : (
         <>
           <h5>

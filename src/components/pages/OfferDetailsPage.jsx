@@ -14,6 +14,7 @@ import { getLocationByOsmId } from "../../locationAPI";
 import { useEffect, useState } from "react";
 import { labels } from "../../labels";
 import { NO_PHOTO_URL, PATHS } from "../../consts";
+import FullPageLoadingSpinner from "../FullPageLoadingSpinner";
 
 const OfferDetailsPage = () => {
   const { offerId } = useParams();
@@ -41,14 +42,7 @@ const OfferDetailsPage = () => {
 
   return (
     <div className="container-fluid">
-      {loading && (
-        <div
-          className="d-flex justify-content-center align-items-center"
-          style={{ marginTop: "250px", marginBottom: "250px" }}
-        >
-          <LoadingSpinner />
-        </div>
-      )}
+      {loading && <FullPageLoadingSpinner />}
       {error && (
         <div className="alert alert-danger" role="alert">
           {labels.THERE_WAS_AN_UNEXPECTED_ERROR}: {error.message}
@@ -58,7 +52,7 @@ const OfferDetailsPage = () => {
         <>
           <img
             className="img-fluid border mt-3"
-            src={offer.photoUrl || NO_PHOTO_URL}
+            src={offer.photo_url || NO_PHOTO_URL}
           ></img>
           <h2 className="mt-2">
             {offer.manufacturer} {offer.model}
