@@ -1,5 +1,4 @@
-import { MapContainer, TileLayer, FeatureGroup, Circle } from "react-leaflet";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const DEFAULT_MAP_ZOOM = 12;
 const MINIMAL_MAP_CIRCLE_RADIUS = 500;
@@ -18,6 +17,14 @@ export const getMapCircleRadius = (boundingBox) => {
 };
 
 const OfferLocationMap = ({ osmLocation }) => {
+  const [reactLeaflet, setReactLeaflet] = useState(null);
+
+  useEffect(() => {
+    import("react-leaflet").then((module) => {
+      setReactLeaflet(module);
+    });
+  }, []);
+
   const featureGroupRef = useRef();
 
   const center = osmLocation ? [osmLocation.lat, osmLocation.lon] : [0, 0];
@@ -38,6 +45,12 @@ const OfferLocationMap = ({ osmLocation }) => {
       }
     }, 0);
   }, [center]);
+
+  if (!reactLeaflet) {
+    return <></>;
+  }
+
+  const { MapContainer, TileLayer, FeatureGroup, Circle } = reactLeaflet;
 
   return (
     <div
