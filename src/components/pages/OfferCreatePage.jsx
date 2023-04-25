@@ -93,7 +93,7 @@ const OfferCreatePage = () => {
           manufacturer: offer.manufacturer,
           model: offer.model,
           year: offer.year,
-          price: parseFloat(offer.price),
+          price: offer.price ? parseInt(offer.price) : null,
           features: offer.features,
           miles: offer.miles ? parseInt(offer.miles) : null,
           location_osm_id: offer.location

@@ -62,7 +62,6 @@ const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
           className="form-control"
           name="price"
           type="number"
-          required
           defaultValue={offerToCreate.price}
           min={0}
           step={1}
