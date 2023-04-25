@@ -1,7 +1,6 @@
 import { useEffect, useState, useImperativeHandle, forwardRef } from "react";
-import { getMapCircleRadius } from "../utils";
 import { getLocation, getLocationReverse } from "../locationAPI";
-import MapWithCircle from "./MapWithCircle";
+import OfferLocationMap from "./OfferLocationMap";
 
 const DEBOUNCE_MS = 1500;
 
@@ -95,11 +94,6 @@ const OfferCreateLocationStage = forwardRef(
       }
     };
 
-    const mapCenterCoords = location ? [location.lat, location.lon] : null;
-    const mapCircleRadius = location?.boundingbox
-      ? getMapCircleRadius(location.boundingbox)
-      : null;
-
     return (
       <div>
         <div className="d-flex flex-column mt-3 mb-3">
@@ -129,11 +123,7 @@ const OfferCreateLocationStage = forwardRef(
         )}
         <div className="mt-4"></div>
         <p>{location?.display_name || "Put in your location above!"}</p>
-        <MapWithCircle
-          center={mapCenterCoords}
-          radius={mapCircleRadius}
-          disabled={!location}
-        />
+        <OfferLocationMap osmLocation={location} />
       </div>
     );
   }
