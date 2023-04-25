@@ -49,5 +49,6 @@ export const labels = {
     REMOVE: 'Remove',
     UNABLE_TO_FIND_LOCATION_ERROR: 'Couldn\'t find the location',
     GET_CURRENT_LOCATION: 'Get my current location',
-    LOCATION_FORM_EMPTY_HINT: 'Put in your location above!'
+    LOCATION_FORM_EMPTY_HINT: 'Put in your location above!',
+    THIS_PAGE_DOES_NOT_EXIST: 'This page does not exist'
 }

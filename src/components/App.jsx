@@ -9,6 +9,7 @@ const SignInPage = React.lazy(() => import("./pages/SignInPage"));
 const OfferDetailsPage = React.lazy(() => import("./pages/OfferDetailsPage"));
 const OfferCreatePage = React.lazy(() => import("./pages/OfferCreatePage"));
 const ChatPage = React.lazy(() => import("./pages/Chat"));
+const InvalidPage = React.lazy(() => import("./pages/InvalidPage"));
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         />
         <Route path={PATHS.OFFER_CREATE} element={<OfferCreatePage />} />
         <Route path={PATHS.CHATS} element={<ChatPage />} />
+        <Route path="*" element={<InvalidPage />} />
       </Route>
     </Routes>
   );
