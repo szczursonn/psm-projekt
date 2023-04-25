@@ -1,4 +1,4 @@
-export const SITE_TITLE = 'Otomoto v2'
+export const SITE_TITLE = 'Otomoto V2'
 
 export const PATHS = {
     SIGN_IN: 'sign-in',
