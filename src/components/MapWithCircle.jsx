@@ -6,12 +6,15 @@ const MapWithCircle = ({ center, radius, disabled }) => {
   const featureGroupRef = useRef();
 
   useEffect(() => {
-    if (!featureGroupRef.current) return;
-    const bounds = featureGroupRef.current.getBounds();
-    if (!bounds.isValid()) {
-      return;
-    }
-    featureGroupRef.current._map.fitBounds(bounds);
+    // workaround
+    setTimeout(() => {
+      if (!featureGroupRef.current) return;
+      const bounds = featureGroupRef.current.getBounds();
+      if (!bounds.isValid()) {
+        return;
+      }
+      featureGroupRef.current._map.fitBounds(bounds);
+    }, 0);
   }, [center]);
 
   return (
