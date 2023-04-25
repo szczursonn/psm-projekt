@@ -2,9 +2,17 @@ import { doc, getFirestore } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "../../firebase";
 import LoadingSpinner from "../LoadingSpinner";
+import MapWithCircle from "../MapWithCircle";
 import { useParams } from "react-router-dom";
-import { formatCurrency, formatDaysAgo, getOfferSubtitle } from "../../utils";
+import {
+  formatCurrency,
+  formatDaysAgo,
+  getLocationByOSMId,
+  getMapCircleRadius,
+  getOfferSubtitle,
+} from "../../utils";
 import { FUEL_TYPE_LABELS } from "../../consts";
+import { useEffect, useState } from "react";
 
 const OfferDetailsPage = () => {
   const { offerId } = useParams();
@@ -13,7 +21,25 @@ const OfferDetailsPage = () => {
     doc(getFirestore(firebaseApp), "cars", offerId)
   );
 
+  const [osmLocation, setOsmLocation] = useState(null);
+
+  useEffect(() => {
+    if (offer?.location_osm_id) {
+      getLocationByOSMId(offer.location_osm_id)
+        .then((loc) => {
+          setOsmLocation(loc);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, [offer]);
+
   const subtitle = offer && getOfferSubtitle(offer);
+  const mapCenter = osmLocation ? [osmLocation.lat, osmLocation.lon] : null;
+  const mapCircleRadius = osmLocation?.boundingbox
+    ? getMapCircleRadius(osmLocation.boundingbox)
+    : null;
 
   return (
     <div className="container-fluid">
@@ -56,6 +82,18 @@ const OfferDetailsPage = () => {
               <li key={feature}>{feature}</li>
             ))}
           </ul>
+          {offer && (
+            <>
+              <h3>Location</h3>
+              <MapWithCircle
+                center={mapCenter}
+                radius={mapCircleRadius}
+                disabled={!offer.location_osm_id}
+              />
+              <div className="mb-2"></div>
+            </>
+          )}
+
           <h3>Details</h3>
           <table className="table table-bordered">
             <tbody>

@@ -132,7 +132,7 @@ const OfferCreateLocationStage = forwardRef(
         <MapWithCircle
           center={mapCenterCoords}
           radius={mapCircleRadius}
-          disabled={!!location}
+          disabled={!location}
         />
       </div>
     );

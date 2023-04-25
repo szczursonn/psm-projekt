@@ -15,7 +15,7 @@ const MapWithCircle = ({ center, radius, disabled }) => {
   }, [center]);
 
   return (
-    <div style={{ opacity: disabled ? "100%" : "50%" }}>
+    <div style={{ opacity: disabled ? "50%" : "100%" }}>
       <MapContainer
         center={center || [0, 0]}
         zoom={DEFAULT_MAP_ZOOM}
