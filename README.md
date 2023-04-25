@@ -7,7 +7,7 @@
 - Michał Szczurek
 - Mateusz Puto
 
-### [Live demo]() @Firebase Hosting
+### [Live demo](https://psm-firebase-4f74c.web.app/) @Firebase Hosting
 
 ## Wymagania do developowania
 
