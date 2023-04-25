@@ -1,4 +1,6 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
+import { labels } from "../labels";
+import { FUEL_TYPE_TO_LABEL } from "../utils";
 
 const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
   useImperativeHandle(ref, () => ({
@@ -24,7 +26,7 @@ const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
   return (
     <form ref={formRef}>
       <div className="mb-3">
-        <label className="form-label">Manufacturer</label>
+        <label className="form-label">{labels.MANUFACTURER}</label>
         <input
           className="form-control"
           name="manufacturer"
@@ -34,7 +36,7 @@ const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
         ></input>
       </div>
       <div className="mb-3">
-        <label className="form-label">Model</label>
+        <label className="form-label">{labels.MODEL}</label>
         <input
           className="form-control"
           name="model"
@@ -44,7 +46,7 @@ const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
         ></input>
       </div>
       <div className="mb-3">
-        <label className="form-label">Year</label>
+        <label className="form-label">{labels.PRODUCTION_YEAR}</label>
         <input
           className="form-control"
           name="year"
@@ -57,7 +59,7 @@ const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
         ></input>
       </div>
       <div className="mb-3">
-        <label className="form-label">Price</label>
+        <label className="form-label">{labels.PRICE}</label>
         <input
           className="form-control"
           name="price"
@@ -68,7 +70,7 @@ const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
         ></input>
       </div>
       <div className="mb-3">
-        <label className="form-label">Miles</label>
+        <label className="form-label">{labels.MILEAGE}</label>
         <input
           className="form-control"
           name="miles"
@@ -79,7 +81,7 @@ const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
         ></input>
       </div>
       <div className="mb-3">
-        <label className="form-label">Horsepower</label>
+        <label className="form-label">{labels.HORSEPOWER}</label>
         <input
           className="form-control"
           name="horses"
@@ -90,18 +92,18 @@ const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
         ></input>
       </div>
       <div className="mb-3">
-        <label className="form-label">Fuel type</label>
+        <label className="form-label">{labels.FUEL_TYPE}</label>
         <select
           className="form-select"
           name="fuelType"
           defaultValue={offerToCreate.fuelType}
         >
-          <option>Select fuel type</option>
-          <option value="petrol">Petrol</option>
-          <option value="diesel">Diesel</option>
-          <option value="lpg">LPG</option>
-          <option value="hybrid">Hybrid</option>
-          <option value="electric">Electric</option>
+          <option>{labels.SELECT_FUEL_TYPE}</option>
+          {["petrol", "diesel", "lpg", "hybrid", "electric"].map((fuelType) => (
+            <option value={fuelType} key={fuelType}>
+              {FUEL_TYPE_TO_LABEL[fuelType]}
+            </option>
+          ))}
         </select>
       </div>
     </form>

@@ -8,13 +8,14 @@ import {
 } from "firebase/auth";
 import { firebaseApp } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { labels } from "../../labels";
 
-const firestoreErrors = {
-  "auth/user-not-found": "User not found",
-  "auth/wrong-password": "Wrong password",
-  "auth/popup-closed-by-user": "Sign in was cancelled",
-  "auth/email-already-in-use": "Email already in use",
-  "auth/weak-password": "Password too weak",
+const authErrors = {
+  "auth/user-not-found": labels.AUTH_ERRORS.USER_NOT_FOUND,
+  "auth/wrong-password": labels.AUTH_ERRORS.WRONG_PASSWORD,
+  "auth/popup-closed-by-user": labels.AUTH_ERRORS.SIGN_IN_CANCELLED,
+  "auth/email-already-in-use": labels.AUTH_ERRORS.EMAIL_IN_USE,
+  "auth/weak-password": labels.AUTH_ERRORS.WEAK_PASSWORD,
 };
 
 const MODE = {
@@ -69,7 +70,7 @@ const SignInPage = () => {
     <div className="container-fluid mt-5">
       <form onSubmit={onSubmit}>
         <div className="mb-3">
-          <label className="form-label">Email</label>
+          <label className="form-label">{labels.EMAIL}</label>
           <input
             className="form-control"
             name="email"
@@ -79,7 +80,7 @@ const SignInPage = () => {
           ></input>
         </div>
         <div className="mb-3">
-          <label className="form-label">Password</label>
+          <label className="form-label">{labels.PASSWORD}</label>
           <input
             className="form-control"
             name="password"
@@ -90,34 +91,36 @@ const SignInPage = () => {
         </div>
         {mode === MODE.LOGIN ? (
           <p>
-            Don't have an account?{" "}
+            {labels.AUTH_HINT_TO_REGISTER}{" "}
             <a href="#" onClick={() => setMode(MODE.REGISTER)}>
-              Register here
+              {labels.REGISTER_HERE}
             </a>
           </p>
         ) : (
           <p>
-            Already have an account?{" "}
+            {labels.AUTH_HINT_TO_LOGIN}{" "}
             <a href="#" onClick={() => setMode(MODE.LOGIN)}>
-              Log in instead
+              {labels.LOG_IN_INSTEAD}
             </a>
           </p>
         )}
         {error && (
           <div className="text-danger fw-bold mb-3">
-            {firestoreErrors[error?.code] ||
-              `There was an unexpected error: ${JSON.stringify(error)}`}
+            {authErrors[error?.code] ||
+              `${labels.THERE_WAS_AN_UNEXPECTED_ERROR}: ${JSON.stringify(
+                error
+              )}`}
           </div>
         )}
         {mode === MODE.LOGIN && (
           <button type="submit" disabled={loading} className="btn btn-primary">
-            Log In
+            {labels.LOG_IN}
           </button>
         )}
 
         {mode === MODE.REGISTER && (
           <button type="submit" disabled={loading} className="btn btn-primary">
-            Register
+            {labels.REGISTER}
           </button>
         )}
         <button
@@ -127,7 +130,7 @@ const SignInPage = () => {
           onClick={signInWithGoogle}
         >
           <img src="/google.svg" height={20} className="me-2"></img>
-          Log In with Google
+          {labels.LOG_IN_WITH_GOOGLE}
         </button>
       </form>
     </div>

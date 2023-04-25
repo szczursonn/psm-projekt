@@ -1,3 +1,5 @@
+export const SITE_TITLE = 'Otomoto v2'
+
 export const PATHS = {
     SIGN_IN: 'sign-in',
     OFFER_DETAILS: 'offers',
@@ -7,10 +9,4 @@ export const PATHS = {
 
 export const CURRENCY_UNIT = 'EUR';
 
-export const FUEL_TYPE_LABELS = {
-    petrol: "Petrol",
-    diesel: "Diesel",
-    lpg: "LPG",
-    hybrid: "Hybrid",
-    electric: "Electric",
-};
+export const NO_PHOTO_URL = "/no-photo.jpg";

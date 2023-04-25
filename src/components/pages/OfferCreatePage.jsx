@@ -15,25 +15,19 @@ import {
 import { useUploadFile } from "react-firebase-hooks/storage";
 import { firebaseApp } from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import { labels } from "../../labels";
 
-const STAGE_NAMES = {
-  0: "Basic info",
-  1: "Features",
-  2: "Location",
-  3: "Photo",
-};
+const STAGES = [
+  { name: labels.BASIC_INFO, component: OfferCreateBasicInfoStage },
+  { name: labels.FEATURES, component: OfferCreateFeaturesStage },
+  { name: labels.LOCATION, component: OfferCreateLocationStage },
+  { name: labels.PHOTO, component: OfferCreateMediaStage },
+];
 
-const STAGE_COMPONENTS = {
-  0: OfferCreateBasicInfoStage,
-  1: OfferCreateFeaturesStage,
-  2: OfferCreateLocationStage,
-  3: OfferCreateMediaStage,
-};
-
-const LAST_STAGE_INDEX = Object.keys(STAGE_COMPONENTS).length - 1;
+const LAST_STAGE_INDEX = STAGES.length - 1;
 
 const OfferCreatePage = () => {
-  const [stage, setStage] = useState(0);
+  const [stageIndex, setStageIndex] = useState(0);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
 
@@ -58,13 +52,13 @@ const OfferCreatePage = () => {
 
     switch (type) {
       case "back":
-        setStage(stage - 1);
+        setStageIndex(stageIndex - 1);
         break;
       case "next":
-        if (stage === LAST_STAGE_INDEX) {
+        if (stageIndex === LAST_STAGE_INDEX) {
           createOffer(newOfferToCreate);
         } else {
-          setStage(stage + 1);
+          setStageIndex(stageIndex + 1);
         }
         break;
     }
@@ -144,22 +138,22 @@ const OfferCreatePage = () => {
       ) : (
         <>
           <h5>
-            {stage + 1}/{LAST_STAGE_INDEX + 1} - {STAGE_NAMES[stage]}
+            {stageIndex + 1}/{LAST_STAGE_INDEX + 1} - {STAGES[stageIndex].name}
           </h5>
 
           <div className="progress mb-2">
             <div
               className="progress-bar"
               style={{
-                width: `${((stage + 1) / (LAST_STAGE_INDEX + 2)) * 100}%`,
+                width: `${((stageIndex + 1) / (LAST_STAGE_INDEX + 2)) * 100}%`,
               }}
             ></div>
           </div>
 
           <hr />
 
-          {STAGE_COMPONENTS[stage] ? (
-            createElement(STAGE_COMPONENTS[stage], {
+          {STAGES[stageIndex] ? (
+            createElement(STAGES[stageIndex].component, {
               offerToCreate,
               ref: stageRef,
               setNavBlocked,
@@ -178,10 +172,10 @@ const OfferCreatePage = () => {
               type="button"
               className="btn btn-primary"
               onClick={onStageChange("back")}
-              disabled={navBlocked || stage === 0}
-              style={{ opacity: stage === 0 ? "0%" : "100%" }}
+              disabled={navBlocked || stageIndex === 0}
+              style={{ opacity: stageIndex === 0 ? "0%" : "100%" }}
             >
-              Back
+              {labels.BACK}
             </button>
             <button
               type="button"
@@ -189,7 +183,9 @@ const OfferCreatePage = () => {
               onClick={onStageChange("next")}
               disabled={navBlocked}
             >
-              {stage === LAST_STAGE_INDEX ? "Create offer" : "Next"}
+              {stageIndex === LAST_STAGE_INDEX
+                ? labels.CREATE_OFFER
+                : labels.NEXT}
             </button>
           </div>
         </>
@@ -197,7 +193,7 @@ const OfferCreatePage = () => {
 
       {error && (
         <div className="text-danger fw-bold mb-3">
-          {`There was an unexpected error: ${JSON.stringify(error)}`}
+          {`${labels.THERE_WAS_AN_UNEXPECTED_ERROR}: ${JSON.stringify(error)}`}
         </div>
       )}
     </div>

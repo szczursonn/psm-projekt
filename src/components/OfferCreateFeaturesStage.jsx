@@ -1,4 +1,5 @@
 import { useState, forwardRef, useImperativeHandle } from "react";
+import { labels } from "../labels";
 
 const OfferCreateFeaturesStage = forwardRef(({ offerToCreate }, ref) => {
   const [features, setFeatures] = useState(offerToCreate?.features || []);
@@ -43,9 +44,7 @@ const OfferCreateFeaturesStage = forwardRef(({ offerToCreate }, ref) => {
           </a>
         ))}
         {features.length === 0 && (
-          <p className="list-group-item">
-            Add features in form below! (heated seats, rear view camera etc.)
-          </p>
+          <p className="list-group-item">{labels.FEATURES_FORM_EMPTY_HINT}</p>
         )}
       </div>
       <form className="d-flex mt-3" onSubmit={onFeatureAdd}>
@@ -56,7 +55,7 @@ const OfferCreateFeaturesStage = forwardRef(({ offerToCreate }, ref) => {
           placeholder="Feature"
           required
         ></input>
-        <button className="btn btn-primary ms-3">Add</button>
+        <button className="btn btn-primary ms-3">{labels.ADD}</button>
       </form>
     </div>
   );

@@ -40,13 +40,27 @@
 }
 ```
 
-### Contact Request (`/contact_requests`)
+### Chat (`/chats`)
 
 ```
 {
-    offer_id: string (car offer doc id)
-    message: string
-    phone_number: string?
+    members: string[] (user ids)
+    offer_id: string (offer doc id)
+    messages: {
+        sender: string (user id)
+        content: string
+        created_at: date
+    }[]
+}
+```
+
+### Profile (`/profiles`)
+
+```
+{
+    uid: string (user id)
+    name: string?
     email: string?
+    phone_number: string?
 }
 ```

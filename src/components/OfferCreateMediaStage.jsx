@@ -1,4 +1,6 @@
 import { useMemo, useState, useImperativeHandle, forwardRef } from "react";
+import { labels } from "../labels";
+import { NO_PHOTO_URL } from "../consts";
 
 const OfferCreateMediaStage = forwardRef(({ offerToCreate }, ref) => {
   const [file, setFile] = useState(offerToCreate?.file || null);
@@ -15,7 +17,7 @@ const OfferCreateMediaStage = forwardRef(({ offerToCreate }, ref) => {
   };
 
   const photoUrl = useMemo(
-    () => (file ? URL.createObjectURL(file) : "/no-photo.jpg"),
+    () => (file ? URL.createObjectURL(file) : NO_PHOTO_URL),
     [file]
   );
 
@@ -26,7 +28,6 @@ const OfferCreateMediaStage = forwardRef(({ offerToCreate }, ref) => {
   return (
     <div className="container-fluid">
       <div>
-        <label className="form-label">Upload</label>
         <input
           className="form-control"
           type="file"
@@ -37,7 +38,7 @@ const OfferCreateMediaStage = forwardRef(({ offerToCreate }, ref) => {
         />
         {file && (
           <button className="btn btn-danger mt-1" onClick={removePhoto}>
-            Remove
+            {labels.REMOVE}
           </button>
         )}
       </div>

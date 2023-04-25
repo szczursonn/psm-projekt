@@ -1,13 +1,16 @@
 import { useEffect, useState, useImperativeHandle, forwardRef } from "react";
-import { getLocation, getLocationReverse } from "../locationAPI";
+import { searchLocation, getLocationByCoords } from "../locationAPI";
 import OfferLocationMap from "./OfferLocationMap";
+import { labels } from "../labels";
 
 const DEBOUNCE_MS = 1500;
 
 const OfferCreateLocationStage = forwardRef(
   ({ offerToCreate, setNavBlocked }, ref) => {
-    const [location, setLocation] = useState(offerToCreate?.location || null);
-    const [locationQuery, setLocationQuery] = useState(
+    const [osmLocation, setOsmLocation] = useState(
+      offerToCreate?.location || null
+    );
+    const [locationQuery, setOsmLocationQuery] = useState(
       offerToCreate?.locationQuery || ""
     );
     const [inputBlocked, setInputBlocked] = useState(false);
@@ -16,7 +19,7 @@ const OfferCreateLocationStage = forwardRef(
     useImperativeHandle(ref, () => ({
       getData() {
         return {
-          location,
+          location: osmLocation,
           locationQuery,
         };
       },
@@ -24,7 +27,7 @@ const OfferCreateLocationStage = forwardRef(
 
     useEffect(() => {
       if (offerToCreate?.locationQuery === locationQuery) {
-        setLocation(offerToCreate?.location || null);
+        setOsmLocation(offerToCreate?.location || null);
         setNavBlocked(false);
         setError(null);
         return;
@@ -35,7 +38,7 @@ const OfferCreateLocationStage = forwardRef(
         const debounceTimeout = setTimeout(lookupLocation, DEBOUNCE_MS);
         return () => clearTimeout(debounceTimeout);
       } else {
-        setLocation(null);
+        setOsmLocation(null);
         setNavBlocked(false);
         setError(null);
       }
@@ -45,16 +48,16 @@ const OfferCreateLocationStage = forwardRef(
       setError(null);
       setInputBlocked(true);
       try {
-        const loc = await getLocation(locationQuery);
+        const loc = await searchLocation(locationQuery);
         if (loc) {
-          setLocation(loc);
+          setOsmLocation(loc);
         } else {
-          setLocation(null);
-          setError("Couldn't find the location");
+          setOsmLocation(null);
+          setError(labels.UNABLE_TO_FIND_LOCATION_ERROR);
         }
       } catch (err) {
         console.error(err);
-        setLocation(null);
+        setOsmLocation(null);
         setError(err);
       } finally {
         setInputBlocked(false);
@@ -70,15 +73,15 @@ const OfferCreateLocationStage = forwardRef(
         const pos = await new Promise((resolve, reject) =>
           navigator.geolocation.getCurrentPosition(resolve, reject)
         );
-        const loc = await getLocationReverse(
+        const newOsmLocation = await getLocationByCoords(
           pos.coords.latitude,
           pos.coords.longitude
         );
-        if (loc) {
-          setLocation(loc);
+        if (newOsmLocation) {
+          setOsmLocation(newOsmLocation);
         } else {
-          setLocation(null);
-          setError("Couldn't find the location");
+          setOsmLocation(null);
+          setError(labels.UNABLE_TO_FIND_LOCATION_ERROR);
         }
       } catch (err) {
         console.error(err);
@@ -87,7 +90,7 @@ const OfferCreateLocationStage = forwardRef(
         } else {
           setError(err);
         }
-        setLocation(null);
+        setOsmLocation(null);
       } finally {
         setInputBlocked(false);
         setNavBlocked(false);
@@ -101,10 +104,10 @@ const OfferCreateLocationStage = forwardRef(
             className="form-control"
             type="text"
             name="location"
-            placeholder="Location"
+            placeholder={labels.LOCATION}
             required
             value={locationQuery}
-            onInput={(e) => setLocationQuery(e.currentTarget.value)}
+            onInput={(e) => setOsmLocationQuery(e.currentTarget.value)}
             disabled={inputBlocked}
           ></input>
           <button
@@ -113,7 +116,7 @@ const OfferCreateLocationStage = forwardRef(
             onClick={lookupLocationFromGPS}
             disabled={inputBlocked}
           >
-            Get my current location
+            {labels.GET_CURRENT_LOCATION}
           </button>
         </div>
         {error && (
@@ -122,8 +125,8 @@ const OfferCreateLocationStage = forwardRef(
           </p>
         )}
         <div className="mt-4"></div>
-        <p>{location?.display_name || "Put in your location above!"}</p>
-        <OfferLocationMap osmLocation={location} />
+        <p>{osmLocation?.display_name || labels.LOCATION_FORM_EMPTY_HINT}</p>
+        <OfferLocationMap osmLocation={osmLocation} />
       </div>
     );
   }

@@ -3,7 +3,8 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { firebaseApp } from "../firebase";
 import LoadingSpinner from "./LoadingSpinner";
 import { useNavigate } from "react-router-dom";
-import { PATHS } from "../consts";
+import { PATHS, SITE_TITLE } from "../consts";
+import { labels } from "../labels";
 
 const Navbar = () => {
   const [user, userLoading] = useAuthState(getAuth(firebaseApp));
@@ -26,7 +27,7 @@ const Navbar = () => {
               height="30"
               className="align-text-top me-2"
             ></img>
-            Otomoto v2
+            {SITE_TITLE}
           </a>
           <div className="d-flex">
             {userLoading ? (
@@ -41,13 +42,13 @@ const Navbar = () => {
                       className="btn btn-outline-success me-2"
                       onClick={() => navigate(`/${PATHS.OFFER_CREATE}`)}
                     >
-                      Add offer
+                      {labels.ADD_OFFER}
                     </button>
                     <button
                       className="btn btn-outline-primary"
                       onClick={logout}
                     >
-                      Sign out
+                      {labels.SIGN_OUT}
                     </button>
                   </>
                 ) : (
@@ -55,7 +56,7 @@ const Navbar = () => {
                     className="btn btn-outline-primary"
                     onClick={() => navigate(`/${PATHS.SIGN_IN}`)}
                   >
-                    Sign in
+                    {labels.SIGN_IN}
                   </button>
                 )}
               </>

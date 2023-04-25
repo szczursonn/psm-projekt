@@ -5,6 +5,7 @@ import OfferListItem from "../OfferListItem";
 import LoadingSpinner from "../LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../consts";
+import { labels } from "../../labels";
 
 const OfferListPage = () => {
   const [snapshot, loading, error] = useCollection(
@@ -29,7 +30,7 @@ const OfferListPage = () => {
       )}
       {error && (
         <div className="alert alert-danger" role="alert">
-          There was an error: {error.message}
+          {labels.THERE_WAS_AN_UNEXPECTED_ERROR}: {error.message}
         </div>
       )}
       {snapshot && (
@@ -41,7 +42,6 @@ const OfferListPage = () => {
               onClick={() => onOfferClick(doc.id)}
             />
           ))}
-          {snapshot.empty && <p>no cars :(</p>}
         </div>
       )}
     </div>

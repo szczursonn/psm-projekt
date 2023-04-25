@@ -5,6 +5,7 @@ const DEFAULT_MAP_ZOOM = 12;
 const MINIMAL_MAP_CIRCLE_RADIUS = 500;
 const MAP_CIRCLE_FALLBACK_RADIUS = 1000;
 const DEGREE_TO_METERS_MULTIPLIER = 111_139;
+const BLANK_OPACITY = "50%";
 
 export const getMapCircleRadius = (boundingBox) => {
   boundingBox = boundingBox.map((n) => parseFloat(n));
@@ -39,7 +40,10 @@ const OfferLocationMap = ({ osmLocation }) => {
   }, [center]);
 
   return (
-    <div style={{ opacity: osmLocation ? "100%" : "50%" }}>
+    <div
+      className="border border-2"
+      style={{ opacity: osmLocation ? "100%" : BLANK_OPACITY }}
+    >
       <MapContainer
         center={center || [0, 0]}
         zoom={DEFAULT_MAP_ZOOM}

@@ -1,3 +1,5 @@
+import { NO_PHOTO_URL } from "../consts";
+import { labels } from "../labels";
 import { formatCurrency, formatDaysAgo, getOfferSubtitle } from "../utils";
 
 const OfferListItem = ({ offer, onClick }) => {
@@ -7,7 +9,7 @@ const OfferListItem = ({ offer, onClick }) => {
     <div className="col-lg-2 col-md-4 col-sm-12">
       <div className="card mt-4" onClick={onClick}>
         <img
-          src={offer.photo_url || "no-photo.jpg"}
+          src={offer.photo_url || NO_PHOTO_URL}
           className="card-img-top"
           style={{
             height: "200px",
@@ -23,7 +25,7 @@ const OfferListItem = ({ offer, onClick }) => {
             <h6 className="card-subtitle text-danger fw-bold">
               {typeof offer.price === "number"
                 ? formatCurrency(offer.price)
-                : "Ask for price"}
+                : labels.ASK_FOR_PRICE}
             </h6>
             {offer.created_at && (
               <h6 className="card-subtitle text-muted">
