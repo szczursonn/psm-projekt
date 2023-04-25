@@ -1,3 +1,4 @@
+import { labels } from "./labels"
 import { CURRENCY_UNIT } from "./consts";
 
 export const getUserLocale = () => navigator.language || 'en-us';
