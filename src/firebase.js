@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getMessaging } from "firebase/messaging/sw";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCiuHm8rMciVlj0A1rjquD2hFAPJAg8FUA",
