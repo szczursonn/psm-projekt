@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCiuHm8rMciVlj0A1rjquD2hFAPJAg8FUA",
@@ -31,5 +31,10 @@ getToken(messaging, {
   })
   .catch((err) => {
     console.log("An error occurred while retrieving token. ", err);
+    // ...
+  });
+
+onMessage(messaging, (payload) => {
+    console.log('Message received. ', payload);
     // ...
   });
