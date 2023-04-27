@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getMessaging } from "firebase/messaging/sw";
+import { getMessaging, getToken } from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCiuHm8rMciVlj0A1rjquD2hFAPJAg8FUA",
@@ -12,3 +12,24 @@ const firebaseConfig = {
 };
 
 export const firebaseApp = initializeApp(firebaseConfig);
+const messaging = getMessaging(firebaseApp);
+
+getToken(messaging, {
+  vapidKey:
+    "BPgxFlyTbZkxBzFYIpegWG9yeyXvY_5exX9CZsQva19tN6LnrHA33n-il6DGLBgh7vxhFU-UtTrwJVUyGlFImcY",
+})
+  .then((currentToken) => {
+    if (currentToken) {
+      console.log("Firebase Token", currentToken);
+    } else {
+      // Show permission request UI
+      console.log(
+        "No registration token available. Request permission to generate one."
+      );
+      // ...
+    }
+  })
+  .catch((err) => {
+    console.log("An error occurred while retrieving token. ", err);
+    // ...
+  });
