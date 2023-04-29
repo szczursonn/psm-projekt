@@ -2,7 +2,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { firebaseApp } from "../firebase";
 import LoadingSpinner from "./LoadingSpinner";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { PATHS, SITE_TITLE } from "../consts";
 import { labels } from "../labels";
 
@@ -10,10 +10,18 @@ const Navbar = () => {
   const [user, userLoading] = useAuthState(getAuth(firebaseApp));
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const logout = () => {
     signOut(getAuth(firebaseApp));
   };
+
+  const navbarLabel =
+    labels.PATHS[
+      Object.values(PATHS).find((path) =>
+        location.pathname.substring(1).startsWith(path)
+      )
+    ] || SITE_TITLE;
 
   return (
     <>
@@ -22,12 +30,12 @@ const Navbar = () => {
           <a className="navbar-brand" href="#" onClick={() => navigate("/")}>
             <img
               src="/favicon.png"
-              alt=""
+              alt={SITE_TITLE}
               width="30"
               height="30"
               className="align-text-top me-2"
             ></img>
-            {SITE_TITLE}
+            {navbarLabel}
           </a>
           <div className="d-flex">
             {userLoading ? (

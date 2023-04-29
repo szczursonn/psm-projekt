@@ -1,3 +1,5 @@
+import { PATHS } from "./consts";
+
 export const labels = {
     BASIC_INFO: 'Basic info',
     FEATURES: 'Features',
@@ -50,5 +52,11 @@ export const labels = {
     UNABLE_TO_FIND_LOCATION_ERROR: 'Couldn\'t find the location',
     GET_CURRENT_LOCATION: 'Get my current location',
     LOCATION_FORM_EMPTY_HINT: 'Put in your location above!',
-    THIS_PAGE_DOES_NOT_EXIST: 'This page does not exist'
+    THIS_PAGE_DOES_NOT_EXIST: 'This page does not exist',
+    PATHS: {
+        [PATHS.SIGN_IN]: 'Sign in',
+        [PATHS.OFFER_CREATE]: 'Create an offer',
+        [PATHS.OFFER_DETAILS]: 'Offer details',
+        [PATHS.CHATS]: 'Chats'
+    }
 }
