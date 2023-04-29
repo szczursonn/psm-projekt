@@ -1,7 +1,6 @@
-import { doc, getFirestore } from "firebase/firestore";
+import { deleteDoc, doc, getFirestore } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "../../firebase";
-import LoadingSpinner from "../LoadingSpinner";
 import OfferLocationMap from "../OfferLocationMap";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -15,16 +14,29 @@ import { useEffect, useState } from "react";
 import { labels } from "../../labels";
 import { NO_PHOTO_URL, PATHS } from "../../consts";
 import FullPageLoadingSpinner from "../FullPageLoadingSpinner";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { getAuth } from "firebase/auth";
 
 const OfferDetailsPage = () => {
   const { offerId } = useParams();
+  const [currentUser] = useAuthState(getAuth(firebaseApp));
 
-  const [offer, loading, error] = useDocumentData(
+  const [offer, loading, error, snapshot] = useDocumentData(
     doc(getFirestore(firebaseApp), "cars", offerId)
   );
 
   const [osmLocation, setOsmLocation] = useState(null);
   const navigate = useNavigate();
+
+  const removeOffer = async () => {
+    if (!snapshot) return;
+    try {
+      await deleteDoc(snapshot.ref);
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     if (offer?.location_osm_id) {
@@ -66,12 +78,18 @@ const OfferDetailsPage = () => {
           </h5>
           <h6 className="text-muted mt-1">ID: {offerId}</h6>
           <hr />
-          <button
-            className="btn btn-primary"
-            onClick={() => navigate(`/${PATHS.CHATS}/${offer.owner_id}`)}
-          >
-            {labels.CONTACT_SELLER}
-          </button>
+          {currentUser?.uid === offer.owner_id ? (
+            <button className="btn btn-danger ms-2" onClick={removeOffer}>
+              {labels.REMOVE_OFFER}
+            </button>
+          ) : (
+            <button
+              className="btn btn-primary"
+              onClick={() => navigate(`/${PATHS.CHATS}/${offer.owner_id}`)}
+            >
+              {labels.CONTACT_SELLER}
+            </button>
+          )}
           <hr />
           {offer.features && (
             <>
@@ -137,6 +155,9 @@ const OfferDetailsPage = () => {
             </tbody>
           </table>
         </>
+      )}
+      {!offer && !loading && !error && (
+        <h2 className="text-center mt-3">{labels.OFFER_DOES_NOT_EXIST}</h2>
       )}
     </div>
   );

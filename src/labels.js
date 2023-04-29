@@ -58,5 +58,7 @@ export const labels = {
         [PATHS.OFFER_CREATE]: 'Create an offer',
         [PATHS.OFFER_DETAILS]: 'Offer details',
         [PATHS.CHATS]: 'Chats'
-    }
+    },
+    REMOVE_OFFER: 'Remove offer',
+    OFFER_DOES_NOT_EXIST: 'Offer doesn\'t exist'
 }
