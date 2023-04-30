@@ -90,6 +90,7 @@ const OfferDetailsPage = () => {
                 name={profile.name}
                 email={profile.email}
                 phoneNumber={profile.phone_number}
+                photoUrl={profile.photo_url}
               />
             </div>
           )}

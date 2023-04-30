@@ -10,6 +10,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../consts";
 import ProfileInfo from "../ProfileInfo";
+import {
+  ref as storageRef,
+  getStorage,
+  getDownloadURL,
+} from "firebase/storage";
+import { useUploadFile } from "react-firebase-hooks/storage";
 
 const ProfilePage = () => {
   const [currentUser, loadingUser, userError] = useAuthState(
@@ -26,9 +32,24 @@ const ProfilePage = () => {
   const [savingError, setSavingError] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
 
+  const [uploadFile] = useUploadFile();
+
   const onSubmit = async (newProfile) => {
     setSaving(true);
     setSavingError(null);
+
+    if (newProfile.photo) {
+      const fileRef = storageRef(
+        getStorage(firebaseApp),
+        `profile_photos/${Math.round(Math.random() * 1e17).toString(36)}_${
+          newProfile.photo.name
+        }`
+      );
+      await uploadFile(fileRef, newProfile.photo);
+      newProfile.photo_url = await getDownloadURL(fileRef);
+      delete newProfile.photo;
+    }
+
     try {
       await setDoc(
         doc(getFirestore(firebaseApp), "profiles", currentUser.uid),
@@ -77,6 +98,7 @@ const ProfilePage = () => {
             name={profile.name}
             email={profile.email}
             phoneNumber={profile.phone_number}
+            photoUrl={profile.photo_url}
             showNull={true}
           />
           <hr />

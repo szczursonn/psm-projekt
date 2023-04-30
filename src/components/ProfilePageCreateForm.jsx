@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { labels } from "../labels";
+import { NO_PHOTO_URL } from "../consts";
 
 const ProfilePageCreateForm = ({
   onSubmit,
@@ -9,6 +10,11 @@ const ProfilePageCreateForm = ({
   existing,
   currentUser,
 }) => {
+  const [name, setName] = useState(existing?.name);
+  const [email, setEmail] = useState(existing?.email);
+  const [file, setFile] = useState(null);
+  const [photoUrl, setPhotoUrl] = useState(existing?.photo_url || null);
+
   const _onSubmit = async (e) => {
     e.preventDefault();
 
@@ -16,27 +22,38 @@ const ProfilePageCreateForm = ({
       name: e.target.name.value,
       email: e.target.email.value || null,
       phone_number: e.target.phone.value || null,
+      photo: file,
+      photo_url: photoUrl,
     });
   };
 
-  const insertLoginName = () => {
+  const insertNameFromAuth = () => {
     setName(currentUser.displayName);
   };
 
-  const insertLoginEmail = () => {
+  const insertEmailFromAuth = () => {
     setEmail(currentUser.email);
   };
 
-  const [name, setName] = useState(existing?.name);
-  const [email, setEmail] = useState(existing?.email);
+  const insertPhotoFromAuth = () => {
+    setFile(null);
+    setPhotoUrl(currentUser.photoURL);
+  };
 
   const shouldShowInsertLoginEmailButton =
     currentUser?.email && email !== currentUser.email;
 
   const shouldShowInsertNameButton =
-    currentUser?.displayName && name !== currentUser?.displayName;
+    currentUser?.displayName && name !== currentUser.displayName;
 
-  console.log(currentUser);
+  const shouldShowInsertPhotoButton =
+    currentUser?.photoURL && photoUrl !== currentUser.photoURL;
+
+  const onFileInput = (e) => {
+    const file = e.target?.files?.[0];
+    setFile(file || null);
+    setPhotoUrl(URL.createObjectURL(file));
+  };
 
   return (
     <form onSubmit={_onSubmit}>
@@ -47,7 +64,7 @@ const ProfilePageCreateForm = ({
             <button
               className="btn btn-outline-dark btn-sm ms-2"
               type="button"
-              onClick={insertLoginName}
+              onClick={insertNameFromAuth}
             >
               {labels.USE_LOGIN_NAME}
             </button>
@@ -70,7 +87,7 @@ const ProfilePageCreateForm = ({
             <button
               className="btn btn-outline-dark btn-sm ms-2"
               type="button"
-              onClick={insertLoginEmail}
+              onClick={insertEmailFromAuth}
             >
               {labels.USE_LOGIN_EMAIL}
             </button>
@@ -95,6 +112,32 @@ const ProfilePageCreateForm = ({
           defaultValue={existing?.phone_number}
         />
       </div>
+      <div className="mt-2">
+        <label className="form-label">
+          {labels.PHOTO}
+          {shouldShowInsertPhotoButton && (
+            <button
+              className="btn btn-outline-dark btn-sm ms-2"
+              type="button"
+              onClick={insertPhotoFromAuth}
+            >
+              {labels.USE_LOGIN_PHOTO}
+            </button>
+          )}
+        </label>
+        <div>
+          <input
+            className="form-control"
+            type="file"
+            name="Photo"
+            accept="image/*"
+            multiple={false}
+            onChange={onFileInput}
+          />
+        </div>
+      </div>
+
+      <img className="img-fluid border mt-3" src={photoUrl || NO_PHOTO_URL} />
 
       {error && (
         <div className="text-danger fw-bold mb-3">
