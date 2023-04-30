@@ -31,7 +31,8 @@ export const labels = {
         WRONG_PASSWORD: "Wrong password",
         SIGN_IN_CANCELLED: "Sign in was cancelled",
         EMAIL_IN_USE: "Email already in use",
-        WEAK_PASSWORD: "Password is too weak"
+        WEAK_PASSWORD: "Password is too weak",
+        INVALID_EMAIL: "Invalid email"
     },
     EMAIL: 'Email address',
     PASSWORD: 'Password',
@@ -57,8 +58,19 @@ export const labels = {
         [PATHS.SIGN_IN]: 'Sign in',
         [PATHS.OFFER_CREATE]: 'Create an offer',
         [PATHS.OFFER_DETAILS]: 'Offer details',
-        [PATHS.CHATS]: 'Chats'
+        [PATHS.CHATS]: 'Chats',
+        [PATHS.PROFILE]: 'Profile'
     },
     REMOVE_OFFER: 'Remove offer',
-    OFFER_DOES_NOT_EXIST: 'Offer doesn\'t exist'
+    OFFER_DOES_NOT_EXIST: 'Offer doesn\'t exist',
+    NAME: 'Name',
+    PHONE_NUMBER: 'Phone number',
+    CREATE_PROFILE: 'Create profile',
+    UPDATE_PROFILE: 'Update profile',
+    USE_LOGIN_EMAIL: 'Use login email',
+    USE_LOGIN_NAME: 'Use login name',
+    USE_LOGIN_PHOTO: 'Use login photo',
+    USER_NO_PROFILE: 'You don\'t have a profile!',
+    NOT_SET: 'Not set',
+    PROFILE: 'Profile'
 }

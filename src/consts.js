@@ -5,7 +5,19 @@ export const PATHS = {
     OFFER_DETAILS: 'offers',
     OFFER_CREATE: 'offer-create',
     CHATS: 'chat',
+    PROFILE: 'profile'
 };
+
+export const COLLECTIONS = {
+    OFFERS: 'cars',
+    PROFILES: 'profiles',
+    CHATS: 'chats'
+}
+
+export const STORAGE_DIRECTORIES = {
+    OFFER_PHOTOS: 'offer_photos',
+    PROFILE_PHOTOS: 'profile_photos'
+}
 
 export const CURRENCY_UNIT = 'EUR';
 

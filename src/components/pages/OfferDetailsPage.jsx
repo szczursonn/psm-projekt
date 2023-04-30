@@ -12,17 +12,23 @@ import {
 import { getLocationByOsmId } from "../../locationAPI";
 import { useEffect, useState } from "react";
 import { labels } from "../../labels";
-import { NO_PHOTO_URL, PATHS } from "../../consts";
+import { COLLECTIONS, NO_PHOTO_URL, PATHS } from "../../consts";
 import FullPageLoadingSpinner from "../FullPageLoadingSpinner";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
+import ProfileInfo from "../ProfileInfo";
 
 const OfferDetailsPage = () => {
   const { offerId } = useParams();
   const [currentUser] = useAuthState(getAuth(firebaseApp));
 
   const [offer, loading, error, snapshot] = useDocumentData(
-    doc(getFirestore(firebaseApp), "cars", offerId)
+    doc(getFirestore(firebaseApp), COLLECTIONS.OFFERS, offerId)
+  );
+
+  const [profile] = useDocumentData(
+    offer?.owner_id &&
+      doc(getFirestore(firebaseApp), COLLECTIONS.PROFILES, offer.owner_id)
   );
 
   const [osmLocation, setOsmLocation] = useState(null);
@@ -64,6 +70,7 @@ const OfferDetailsPage = () => {
         <>
           <img
             className="img-fluid border mt-3"
+            style={{ maxHeight: "700px" }}
             src={offer.photo_url || NO_PHOTO_URL}
           ></img>
           <h2 className="mt-2">
@@ -78,10 +85,30 @@ const OfferDetailsPage = () => {
           </h5>
           <h6 className="text-muted mt-1">ID: {offerId}</h6>
           <hr />
+          {profile && (
+            <div className="mb-3">
+              <ProfileInfo
+                name={profile.name}
+                email={profile.email}
+                phoneNumber={profile.phone_number}
+                photoUrl={profile.photo_url}
+              />
+            </div>
+          )}
           {currentUser?.uid === offer.owner_id ? (
-            <button className="btn btn-danger ms-2" onClick={removeOffer}>
-              {labels.REMOVE_OFFER}
-            </button>
+            <div className="d-flex ms-2">
+              {!profile && (
+                <button
+                  className="btn btn-outline-primary me-2"
+                  onClick={() => navigate(`/${PATHS.PROFILE}`)}
+                >
+                  {labels.CREATE_PROFILE}
+                </button>
+              )}
+              <button className="btn btn-danger" onClick={removeOffer}>
+                {labels.REMOVE_OFFER}
+              </button>
+            </div>
           ) : (
             <button
               className="btn btn-primary"
@@ -91,7 +118,7 @@ const OfferDetailsPage = () => {
             </button>
           )}
           <hr />
-          {offer.features && (
+          {offer.features && offer.features.length > 0 && (
             <>
               <h3>{labels.FEATURES}</h3>
               <ul>

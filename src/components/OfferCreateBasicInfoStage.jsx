@@ -16,7 +16,7 @@ const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
         price: form.price.value,
         miles: form.miles.value,
         horses: form.horses.value,
-        fuelType: form.fuelType.value,
+        fuelType: form.fuelType.value === "" ? null : form.fuelType.value,
       };
     },
   }));
@@ -98,7 +98,7 @@ const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
           name="fuelType"
           defaultValue={offerToCreate.fuelType}
         >
-          <option>{labels.SELECT_FUEL_TYPE}</option>
+          <option value={""}>{labels.SELECT_FUEL_TYPE}</option>
           {["petrol", "diesel", "lpg", "hybrid", "electric"].map((fuelType) => (
             <option value={fuelType} key={fuelType}>
               {FUEL_TYPE_TO_LABEL[fuelType]}
