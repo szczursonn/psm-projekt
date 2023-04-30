@@ -7,7 +7,7 @@ const ProfilePageCreateForm = ({
   disabled,
   error,
   existing,
-  currentUserEmail,
+  currentUser,
 }) => {
   const _onSubmit = async (e) => {
     e.preventDefault();
@@ -19,26 +19,48 @@ const ProfilePageCreateForm = ({
     });
   };
 
-  const insertLoginEmail = () => {
-    setEmail(currentUserEmail);
+  const insertLoginName = () => {
+    setName(currentUser.displayName);
   };
 
+  const insertLoginEmail = () => {
+    setEmail(currentUser.email);
+  };
+
+  const [name, setName] = useState(existing?.name);
   const [email, setEmail] = useState(existing?.email);
 
   const shouldShowInsertLoginEmailButton =
-    currentUserEmail && email !== currentUserEmail;
+    currentUser?.email && email !== currentUser.email;
+
+  const shouldShowInsertNameButton =
+    currentUser?.displayName && name !== currentUser?.displayName;
+
+  console.log(currentUser);
 
   return (
     <form onSubmit={_onSubmit}>
       <div className="mt-2">
-        <label className="form-label">{labels.NAME}</label>
+        <label className="form-label">
+          {labels.NAME}
+          {shouldShowInsertNameButton && (
+            <button
+              className="btn btn-outline-dark btn-sm ms-2"
+              type="button"
+              onClick={insertLoginName}
+            >
+              {labels.USE_LOGIN_NAME}
+            </button>
+          )}
+        </label>
         <input
           className="form-control"
           type="text"
           name="name"
           required
           disabled={disabled}
-          defaultValue={existing?.name}
+          value={name}
+          onChange={(e) => setName(e.currentTarget.value)}
         />
       </div>
       <div className="mt-2">

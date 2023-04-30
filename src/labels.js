@@ -67,6 +67,7 @@ export const labels = {
     CREATE_PROFILE: 'Create profile',
     UPDATE_PROFILE: 'Update profile',
     USE_LOGIN_EMAIL: 'Use login email',
+    USE_LOGIN_NAME: 'Use login name',
     USER_NO_PROFILE: 'You don\'t have a profile!',
     NOT_SET: 'Not set',
     PROFILE: 'Profile'

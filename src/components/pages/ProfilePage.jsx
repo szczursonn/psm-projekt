@@ -16,7 +16,8 @@ const ProfilePage = () => {
     getAuth(firebaseApp)
   );
   const [profile, loadingProfile, profileError] = useDocumentData(
-    doc(getFirestore(firebaseApp), "profiles", currentUser?.uid || "x")
+    currentUser?.uid &&
+      doc(getFirestore(firebaseApp), "profiles", currentUser?.uid)
   );
   const loading = loadingUser || loadingProfile;
   const error = userError || profileError;
@@ -105,7 +106,7 @@ const ProfilePage = () => {
           disabled={saving}
           error={savingError}
           existing={profile}
-          currentUserEmail={currentUser?.email}
+          currentUser={currentUser}
         />
       )}
     </div>
