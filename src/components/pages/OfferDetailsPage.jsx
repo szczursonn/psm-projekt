@@ -16,6 +16,7 @@ import { NO_PHOTO_URL, PATHS } from "../../consts";
 import FullPageLoadingSpinner from "../FullPageLoadingSpinner";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
+import ProfileInfo from "../ProfileInfo";
 
 const OfferDetailsPage = () => {
   const { offerId } = useParams();
@@ -23,6 +24,11 @@ const OfferDetailsPage = () => {
 
   const [offer, loading, error, snapshot] = useDocumentData(
     doc(getFirestore(firebaseApp), "cars", offerId)
+  );
+
+  const [profile] = useDocumentData(
+    offer?.owner_id &&
+      doc(getFirestore(firebaseApp), "profiles", offer.owner_id)
   );
 
   const [osmLocation, setOsmLocation] = useState(null);
@@ -78,6 +84,15 @@ const OfferDetailsPage = () => {
           </h5>
           <h6 className="text-muted mt-1">ID: {offerId}</h6>
           <hr />
+          {profile && (
+            <div className="mb-3">
+              <ProfileInfo
+                name={profile.name}
+                email={profile.email}
+                phoneNumber={profile.phone_number}
+              />
+            </div>
+          )}
           {currentUser?.uid === offer.owner_id ? (
             <button className="btn btn-danger ms-2" onClick={removeOffer}>
               {labels.REMOVE_OFFER}
@@ -91,7 +106,7 @@ const OfferDetailsPage = () => {
             </button>
           )}
           <hr />
-          {offer.features && (
+          {offer.features && offer.features.length > 0 && (
             <>
               <h3>{labels.FEATURES}</h3>
               <ul>
