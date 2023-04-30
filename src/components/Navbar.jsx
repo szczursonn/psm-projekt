@@ -5,7 +5,7 @@ import LoadingSpinner from "./LoadingSpinner";
 import { useNavigate, useLocation } from "react-router-dom";
 import { PATHS, SITE_TITLE } from "../consts";
 import { labels } from "../labels";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const [dropdownOpened, setDropdownOpened] = useState(false);
@@ -45,7 +45,11 @@ const Navbar = () => {
       Object.values(PATHS).find((path) =>
         location.pathname.substring(1).startsWith(path)
       )
-    ] || SITE_TITLE;
+    ];
+
+  useEffect(() => {
+    document.title = `${SITE_TITLE}${navbarLabel ? ` | ${navbarLabel}` : ""}`;
+  }, [navbarLabel]);
 
   return (
     <>
@@ -59,7 +63,7 @@ const Navbar = () => {
               height="30"
               className="align-text-top me-2"
             ></img>
-            {navbarLabel}
+            {navbarLabel || SITE_TITLE}
           </a>
           <div className="d-flex">
             {userLoading ? (
