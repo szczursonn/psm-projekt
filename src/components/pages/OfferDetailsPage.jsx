@@ -94,9 +94,19 @@ const OfferDetailsPage = () => {
             </div>
           )}
           {currentUser?.uid === offer.owner_id ? (
-            <button className="btn btn-danger ms-2" onClick={removeOffer}>
-              {labels.REMOVE_OFFER}
-            </button>
+            <div className="d-flex ms-2">
+              {!profile && (
+                <button
+                  className="btn btn-outline-primary me-2"
+                  onClick={() => navigate(`/${PATHS.PROFILE}`)}
+                >
+                  {labels.CREATE_PROFILE}
+                </button>
+              )}
+              <button className="btn btn-danger" onClick={removeOffer}>
+                {labels.REMOVE_OFFER}
+              </button>
+            </div>
           ) : (
             <button
               className="btn btn-primary"
