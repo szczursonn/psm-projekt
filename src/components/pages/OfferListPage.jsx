@@ -3,13 +3,13 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "../../firebase";
 import OfferListItem from "../OfferListItem";
 import { useNavigate } from "react-router-dom";
-import { PATHS } from "../../consts";
+import { COLLECTIONS, PATHS } from "../../consts";
 import { labels } from "../../labels";
 import FullPageLoadingSpinner from "../FullPageLoadingSpinner";
 
 const OfferListPage = () => {
   const [snapshot, loading, error] = useCollection(
-    collection(getFirestore(firebaseApp), "cars")
+    collection(getFirestore(firebaseApp), COLLECTIONS.OFFERS)
   );
 
   const navigate = useNavigate();

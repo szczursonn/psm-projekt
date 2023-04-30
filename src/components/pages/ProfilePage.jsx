@@ -8,7 +8,7 @@ import ProfilePageCreateForm from "../ProfilePageCreateForm";
 import { labels } from "../../labels";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PATHS } from "../../consts";
+import { COLLECTIONS, PATHS, STORAGE_DIRECTORIES } from "../../consts";
 import ProfileInfo from "../ProfileInfo";
 import {
   ref as storageRef,
@@ -23,7 +23,7 @@ const ProfilePage = () => {
   );
   const [profile, loadingProfile, profileError] = useDocumentData(
     currentUser?.uid &&
-      doc(getFirestore(firebaseApp), "profiles", currentUser?.uid)
+      doc(getFirestore(firebaseApp), COLLECTIONS.PROFILES, currentUser?.uid)
   );
   const loading = loadingUser || loadingProfile;
   const error = userError || profileError;
@@ -41,9 +41,9 @@ const ProfilePage = () => {
     if (newProfile.photo) {
       const fileRef = storageRef(
         getStorage(firebaseApp),
-        `profile_photos/${Math.round(Math.random() * 1e17).toString(36)}_${
-          newProfile.photo.name
-        }`
+        `${STORAGE_DIRECTORIES.PROFILE_PHOTOS}/${Math.round(
+          Math.random() * 1e17
+        ).toString(36)}_${newProfile.photo.name}`
       );
       await uploadFile(fileRef, newProfile.photo);
       newProfile.photo_url = await getDownloadURL(fileRef);
@@ -52,7 +52,7 @@ const ProfilePage = () => {
 
     try {
       await setDoc(
-        doc(getFirestore(firebaseApp), "profiles", currentUser.uid),
+        doc(getFirestore(firebaseApp), COLLECTIONS.PROFILES, currentUser.uid),
         newProfile
       );
       setIsEditMode(false);

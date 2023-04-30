@@ -12,7 +12,7 @@ import {
 import { getLocationByOsmId } from "../../locationAPI";
 import { useEffect, useState } from "react";
 import { labels } from "../../labels";
-import { NO_PHOTO_URL, PATHS } from "../../consts";
+import { COLLECTIONS, NO_PHOTO_URL, PATHS } from "../../consts";
 import FullPageLoadingSpinner from "../FullPageLoadingSpinner";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
@@ -23,12 +23,12 @@ const OfferDetailsPage = () => {
   const [currentUser] = useAuthState(getAuth(firebaseApp));
 
   const [offer, loading, error, snapshot] = useDocumentData(
-    doc(getFirestore(firebaseApp), "cars", offerId)
+    doc(getFirestore(firebaseApp), COLLECTIONS.OFFERS, offerId)
   );
 
   const [profile] = useDocumentData(
     offer?.owner_id &&
-      doc(getFirestore(firebaseApp), "profiles", offer.owner_id)
+      doc(getFirestore(firebaseApp), COLLECTIONS.PROFILES, offer.owner_id)
   );
 
   const [osmLocation, setOsmLocation] = useState(null);
