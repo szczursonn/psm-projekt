@@ -70,6 +70,7 @@ const OfferDetailsPage = () => {
         <>
           <img
             className="img-fluid border mt-3"
+            style={{ maxHeight: "700px" }}
             src={offer.photo_url || NO_PHOTO_URL}
           ></img>
           <h2 className="mt-2">
