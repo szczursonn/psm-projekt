@@ -5,15 +5,39 @@ import LoadingSpinner from "./LoadingSpinner";
 import { useNavigate, useLocation } from "react-router-dom";
 import { PATHS, SITE_TITLE } from "../consts";
 import { labels } from "../labels";
+import { useState } from "react";
 
 const Navbar = () => {
+  const [dropdownOpened, setDropdownOpened] = useState(false);
+
   const [user, userLoading] = useAuthState(getAuth(firebaseApp));
 
   const navigate = useNavigate();
   const location = useLocation();
 
+  const goHome = () => {
+    navigate("/");
+    setDropdownOpened(false);
+  };
+
+  const goToChats = () => {
+    navigate(`/${PATHS.CHATS}`);
+    setDropdownOpened(false);
+  };
+
+  const goToCreateOffer = () => {
+    navigate(`/${PATHS.OFFER_CREATE}`);
+    setDropdownOpened(false);
+  };
+
+  const goToProfile = () => {
+    navigate(`/${PATHS.PROFILE}`);
+    setDropdownOpened(false);
+  };
+
   const logout = () => {
     signOut(getAuth(firebaseApp));
+    setDropdownOpened(false);
   };
 
   const navbarLabel =
@@ -27,7 +51,7 @@ const Navbar = () => {
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#" onClick={() => navigate("/")}>
+          <a className="navbar-brand" href={undefined} onClick={goHome}>
             <img
               src="/favicon.png"
               alt={SITE_TITLE}
@@ -46,18 +70,50 @@ const Navbar = () => {
               <>
                 {user ? (
                   <>
-                    <button
-                      className="btn btn-outline-success me-2"
-                      onClick={() => navigate(`/${PATHS.OFFER_CREATE}`)}
+                    <a
+                      className="d-flex align-items-center me-4"
+                      href={undefined}
+                      onClick={goToChats}
                     >
-                      {labels.ADD_OFFER}
-                    </button>
-                    <button
-                      className="btn btn-outline-primary"
-                      onClick={logout}
-                    >
-                      {labels.SIGN_OUT}
-                    </button>
+                      <img src="/chat-icon.svg" height="35" />
+                    </a>
+                    <div className="dropdown">
+                      <button
+                        className={`btn btn-outline-secondary pe-4 dropdown-toggle${
+                          dropdownOpened ? " show" : ""
+                        }`}
+                        onClick={() => setDropdownOpened(!dropdownOpened)}
+                      >
+                        <img src="/user-profile-icon.svg" />
+                      </button>
+                      <ul
+                        className={`dropdown-menu${
+                          dropdownOpened ? " show" : ""
+                        }`}
+                        style={{
+                          right: 0,
+                        }}
+                      >
+                        <li
+                          className="dropdown-item pt-2 pb-2"
+                          onClick={goToCreateOffer}
+                        >
+                          {labels.ADD_OFFER}
+                        </li>
+                        <li
+                          className="dropdown-item  pt-2 pb-2"
+                          onClick={goToProfile}
+                        >
+                          {labels.PROFILE}
+                        </li>
+                        <li
+                          className="dropdown-item  pt-2 pb-2"
+                          onClick={logout}
+                        >
+                          {labels.SIGN_OUT}
+                        </li>
+                      </ul>
+                    </div>
                   </>
                 ) : (
                   <button
