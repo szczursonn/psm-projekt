@@ -5,6 +5,7 @@ export const PATHS = {
     OFFER_DETAILS: 'offers',
     OFFER_CREATE: 'offer-create',
     CHATS: 'chat',
+    NEW_CHAT: 'new-chat',
 };
 
 export const CURRENCY_UNIT = 'EUR';
