@@ -3,7 +3,7 @@ import OfferCreateBasicInfoStage from "../OfferCreateBasicInfoStage";
 import OfferCreateFeaturesStage from "../OfferCreateFeaturesStage";
 import OfferCreateLocationStage from "../OfferCreateLocationStage";
 import OfferCreateMediaStage from "../OfferCreateMediaStage";
-import { PATHS } from "../../consts";
+import { COLLECTIONS, PATHS, STORAGE_DIRECTORIES } from "../../consts";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import {
@@ -73,16 +73,16 @@ const OfferCreatePage = () => {
       if (offer.file) {
         const fileRef = storageRef(
           getStorage(firebaseApp),
-          `offer_photos/${Math.round(Math.random() * 1e17).toString(36)}_${
-            offer.file.name
-          }`
+          `${STORAGE_DIRECTORIES.OFFER_PHOTOS}/${Math.round(
+            Math.random() * 1e17
+          ).toString(36)}_${offer.file.name}`
         );
         await uploadFile(fileRef, offer.file);
         photoUrl = await getDownloadURL(fileRef);
       }
 
       const offerDoc = await addDoc(
-        collection(getFirestore(firebaseApp), "cars"),
+        collection(getFirestore(firebaseApp), COLLECTIONS.OFFERS),
         {
           manufacturer: offer.manufacturer,
           model: offer.model,

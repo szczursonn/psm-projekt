@@ -19,6 +19,7 @@ const authErrors = {
   "auth/popup-closed-by-user": labels.AUTH_ERRORS.SIGN_IN_CANCELLED,
   "auth/email-already-in-use": labels.AUTH_ERRORS.EMAIL_IN_USE,
   "auth/weak-password": labels.AUTH_ERRORS.WEAK_PASSWORD,
+  "auth/invalid-email": labels.AUTH_ERRORS.INVALID_EMAIL,
 };
 
 const MODE = {
