@@ -17,6 +17,8 @@ import FullPageLoadingSpinner from "../FullPageLoadingSpinner";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import ProfileInfo from "../ProfileInfo";
+import {Link} from "react-router-dom";
+
 
 const OfferDetailsPage = () => {
   const { offerId } = useParams();
@@ -93,6 +95,9 @@ const OfferDetailsPage = () => {
                 phoneNumber={profile.phone_number}
                 photoUrl={profile.photo_url}
               />
+
+              <Link to="/new-chat" state={{offerId: offerId}}>
+                 Start a new chat </Link>
             </div>
           )}
           {currentUser?.uid === offer.owner_id ? (
