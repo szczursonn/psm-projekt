@@ -26,3 +26,21 @@ export const FUEL_TYPE_TO_LABEL = {
     'hybrid': labels.FUEL_TYPES.HYBRID,
     'electric': labels.FUEL_TYPES.ELECTRIC,
 };
+
+export const sortBy = (field, reverse = false) => (a, b) => {
+    a = parseFloat(a[field]);
+    b = parseFloat(b[field]);
+
+    let res;
+    if (isNaN(a) && isNaN(b)) {
+        res = 0;
+    } else if (isNaN(a)) {
+        res = 1;
+    } else if (isNaN(b)) {
+        res = -1;
+    } else {
+        res = a - b;
+    }
+    console.log(a, b, res);
+    return reverse ? -res : res;
+}

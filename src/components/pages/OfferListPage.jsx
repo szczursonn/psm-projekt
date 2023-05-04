@@ -2,66 +2,117 @@ import { getFirestore, collection } from "firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "../../firebase";
 import OfferListItem from "../OfferListItem";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { COLLECTIONS, PATHS } from "../../consts";
 import { labels } from "../../labels";
 import FullPageLoadingSpinner from "../FullPageLoadingSpinner";
-import SortOffers from "../Dropdown";
+import { sortBy } from "../../utils";
+import { useState } from "react";
+
+const SORTING_OPTIONS = {
+  "price-asc": {
+    label: labels.SORTING_OPTIONS.PRICE_ASC,
+    fn: sortBy("price"),
+  },
+  "price-desc": {
+    label: labels.SORTING_OPTIONS.PRICE_DESC,
+    fn: sortBy("price", true),
+  },
+  "year-asc": {
+    label: labels.SORTING_OPTIONS.YEAR_ASC,
+    fn: sortBy("year"),
+  },
+  "year-desc": {
+    label: labels.SORTING_OPTIONS.YEAR_DESC,
+    fn: sortBy("year", true),
+  },
+  "mile-asc": {
+    label: labels.SORTING_OPTIONS.MILES_ASC,
+    fn: sortBy("miles"),
+  },
+  "mile-desc": {
+    label: labels.SORTING_OPTIONS.MILES_DESC,
+    fn: sortBy("miles", true),
+  },
+};
+
+const SORTING_PARAMETER = "sortby";
 
 const OfferListPage = () => {
   const [snapshot, loading, error] = useCollection(
     collection(getFirestore(firebaseApp), COLLECTIONS.OFFERS)
   );
-
+  const [dropdownOpened, setDropdownOpened] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  const currentSorting = SORTING_OPTIONS[searchParams.get(SORTING_PARAMETER)];
+  const offers = snapshot
+    ? snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        _id: doc.id,
+      }))
+    : null;
+  if (offers && currentSorting) {
+    offers.sort(currentSorting.fn);
+  }
 
   const onOfferClick = (offerId) => {
     navigate(`/${PATHS.OFFER_DETAILS}/${offerId}`);
   };
 
+  const onDropdownButtonClick = () => {
+    if (dropdownOpened) {
+      onSortingSelect("");
+    }
+    setDropdownOpened(!dropdownOpened);
+  };
 
-  if (snapshot == undefined){
-    console.log('No matching documents');
-    return;
-  }
-
-  let vehicles = [];
-  snapshot.docs.forEach(doc => {
-    vehicles.push(doc.data());
-  })
-
-  let url = window.location.href.split('/').at(-1);
-
-  if (url == 'price-asc') {
-    vehicles.sort((a, b) => a.price - b.price);
-  } else if (url == 'price-desc') {
-    vehicles.sort((a, b) => b.price - a.price);
-  } else if (url == 'year-asc') {
-    vehicles.sort((a, b) => parseInt(a.year) - parseInt(b.year));
-  } else if (url == 'year-desc') {
-    vehicles.sort((a, b) => parseInt(b.year) - parseInt(a.year));
-  } else if (url == 'mile-asc') {
-    vehicles.sort((a, b) => a.miles - b.miles);
-  } else if (url == 'mile-desc') {
-    vehicles.sort((a, b) => b.miles - a.miles);
-  }
+  const onSortingSelect = (key) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    if (key) {
+      newSearchParams.set(SORTING_PARAMETER, key);
+    } else {
+      newSearchParams.delete(SORTING_PARAMETER);
+    }
+    setSearchParams(newSearchParams);
+    setDropdownOpened(false);
+  };
 
   return (
     <div className="container-fluid mb-4">
-      <SortOffers state="" />
       {loading && <FullPageLoadingSpinner />}
       {error && (
         <div className="alert alert-danger" role="alert">
           {labels.THERE_WAS_AN_UNEXPECTED_ERROR}: {error.message}
         </div>
       )}
-      {snapshot && (
+      {offers && (
         <div className="row align-items-start ms-1 me-1">
-          {vehicles.map((doc) => (
+          <div className="dropdown mt-3">
+            <button
+              className="btn btn-success dropdown-toggle"
+              onClick={onDropdownButtonClick}
+            >
+              {currentSorting?.label || labels.SORT_OFFERS}
+            </button>
+            <ul className={`dropdown-menu${dropdownOpened ? " show" : ""}`}>
+              {Object.entries(SORTING_OPTIONS).map(([key, opt]) => (
+                <li
+                  key={key}
+                  className="dropdown-item pt-2 pb-2"
+                  onClick={() => onSortingSelect(key)}
+                >
+                  {opt.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+          {offers.map((offer) => (
             <OfferListItem
-              key={doc.id}
-              offer={doc}
-              onClick={() => onOfferClick(doc.id)}
+              key={offer._id}
+              offer={offer}
+              onClick={() => onOfferClick(offer._id)}
             />
           ))}
         </div>

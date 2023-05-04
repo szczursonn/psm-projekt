@@ -72,5 +72,14 @@ export const labels = {
     USE_LOGIN_PHOTO: 'Use login photo',
     USER_NO_PROFILE: 'You don\'t have a profile!',
     NOT_SET: 'Not set',
-    PROFILE: 'Profile'
+    PROFILE: 'Profile',
+    SORT_OFFERS: 'Sort offers',
+    SORTING_OPTIONS: {
+        PRICE_ASC: 'Price (ascending)',
+        PRICE_DESC: 'Price (descending)',
+        YEAR_ASC: 'Year (ascending)',
+        YEAR_DESC: 'Year (descending)',
+        MILES_ASC: 'Mileage (ascending)',
+        MILES_DESC: 'Mileage (descending)'
+    }
 }
