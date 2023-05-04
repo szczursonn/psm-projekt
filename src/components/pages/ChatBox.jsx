@@ -30,11 +30,10 @@ const Chat = ({ query }) => {
     }, [query]);
 
     if (Object.keys(p).length === 0) {
-        return (<h3>Nan</h3>);
+        return (<h3>No conversations found.</h3>);
     } else {
         let conversations = [];
         p.forEach((propsVal) => {
-            console.log(propsVal);
             conversations.push(<ViewChat {...propsVal}/>);
         } );
         return conversations;

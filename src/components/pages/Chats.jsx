@@ -10,10 +10,6 @@ const Chats = () => {
 
     let q = undefined;
 
-    if (user) {
-        console.log(user.uid);
-    }
-
     let uid = user.uid;
     let db = getFirestore(firebaseApp);
 

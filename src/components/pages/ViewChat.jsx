@@ -1,6 +1,6 @@
 import { firebaseApp } from "../../firebase";
 import { doc, updateDoc, getFirestore, collection, Timestamp } from "firebase/firestore";
-import { useDocumentData, useCollection } from "react-firebase-hooks/firestore";
+import { useCollection } from "react-firebase-hooks/firestore";
 import { useState } from "react";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from 'firebase/auth';
