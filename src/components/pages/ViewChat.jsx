@@ -4,6 +4,8 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { useState } from "react";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth } from 'firebase/auth';
+import { PATHS } from "../../consts";
+import {Link} from "react-router-dom";
 
 const ViewChat = ({conversation_id, offer_id, members, messages}) => {
     const auth = getAuth(firebaseApp);
@@ -11,6 +13,7 @@ const ViewChat = ({conversation_id, offer_id, members, messages}) => {
     const [userSnapshot, _l, _e] = useCollection(
         collection(getFirestore(firebaseApp), "profiles"));
     const [formValue, setFormValue] = useState('');
+    const [open, setOpen] = useState(false);
 
     const db = getFirestore(firebaseApp);
     const chatRef = doc(db, "chats", conversation_id);
@@ -47,26 +50,33 @@ const ViewChat = ({conversation_id, offer_id, members, messages}) => {
         width: 300,
     };
 
-    return (<div>
-        <div class="card" style={styling}>
-            {memberOne}<br/>
-            {memberTwo}<br/>
-            Offer: {offer_id}<br/>
-            <ul class='list-group list-group-flush'>
-                {msg}
-            </ul>
-        </div>
+    const toggle = () => {
+        setOpen(!open);
+    };
 
-        <div>
-            <form onSubmit={sendReply}>
-                <label htmlFor="repl">Reply:</label><br/>
-                <input value={formValue} onChange={(e) => setFormValue(e.target.value)}
-                 className="form-control" id="repl" name="repl" style={styling}></input><br/>
+    return (<div className="m-4">
+        <button onClick={toggle} type="button" class="btn btn-outline-primary">
+            Conversation between {memberOne} and {memberTwo}</button>
+        {open && <div className="conversation">
+            <div className="card" style={styling}>
+                {memberOne}<br/>
+                {memberTwo}<br/>
+                <Link to={`/${PATHS.OFFER_DETAILS}/${offer_id}`}>Go to offer</Link><br/>
+                <ul class='list-group list-group-flush'>
+                    {msg}
+                </ul>
+            </div>
 
-                <button type="submit" value="Reply" className="btn btn-primary">Reply</button>
-            </form>
-        </div>
+            <div>
+                <form onSubmit={sendReply}>
+                    <label htmlFor="repl">Reply:</label><br/>
+                    <input value={formValue} onChange={(e) => setFormValue(e.target.value)}
+                    className="form-control" id="repl" name="repl" style={styling}></input><br/>
 
+                    <button type="submit" value="Reply" className="btn btn-primary">Send</button>
+                </form>
+            </div>
+        </div>}
         </div>
         );
 };
