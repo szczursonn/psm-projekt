@@ -47,8 +47,8 @@ const ProfilePage = () => {
       );
       await uploadFile(fileRef, newProfile.photo);
       newProfile.photo_url = await getDownloadURL(fileRef);
-      delete newProfile.photo;
     }
+    delete newProfile.photo;
 
     try {
       await setDoc(
@@ -94,6 +94,7 @@ const ProfilePage = () => {
       )}
       {profile && !isEditMode && (
         <>
+          <div className="mt-2" />
           <ProfileInfo
             name={profile.name}
             email={profile.email}

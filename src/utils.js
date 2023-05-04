@@ -41,6 +41,5 @@ export const sortBy = (field, reverse = false) => (a, b) => {
     } else {
         res = a - b;
     }
-    console.log(a, b, res);
     return reverse ? -res : res;
 }

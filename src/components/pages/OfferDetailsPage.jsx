@@ -1,4 +1,13 @@
-import { deleteDoc, doc, getFirestore } from "firebase/firestore";
+import {
+  deleteDoc,
+  doc,
+  getFirestore,
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "../../firebase";
 import OfferLocationMap from "../OfferLocationMap";
@@ -17,8 +26,6 @@ import FullPageLoadingSpinner from "../FullPageLoadingSpinner";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getAuth } from "firebase/auth";
 import ProfileInfo from "../ProfileInfo";
-import {Link} from "react-router-dom";
-
 
 const OfferDetailsPage = () => {
   const { offerId } = useParams();
@@ -44,6 +51,33 @@ const OfferDetailsPage = () => {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const startChat = async () => {
+    const chatsCollection = collection(
+      getFirestore(firebaseApp),
+      COLLECTIONS.CHATS
+    );
+
+    const existingChat = await getDocs(
+      query(
+        chatsCollection,
+        where("members", "array-contains", currentUser.uid),
+        where("offer_id", "==", offerId)
+      )
+    );
+    if (existingChat.docs.length > 0) {
+      navigate(`/${PATHS.CHATS}?chat=${existingChat.docs[0].id}`); // navigate to chat page
+      return;
+    }
+
+    const newChat = await addDoc(chatsCollection, {
+      members: [currentUser.uid, offer.owner_id],
+      messages: [],
+      offer_id: offerId,
+    });
+
+    navigate(`/${PATHS.CHATS}?chat=${newChat.id}`);
   };
 
   useEffect(() => {
@@ -72,7 +106,7 @@ const OfferDetailsPage = () => {
         <>
           <img
             className="img-fluid border mt-3"
-            style={{ maxHeight: "700px" }}
+            style={{ maxHeight: "700px", width: "100%" }}
             src={offer.photo_url || NO_PHOTO_URL}
           ></img>
           <h2 className="mt-2">
@@ -95,9 +129,6 @@ const OfferDetailsPage = () => {
                 phoneNumber={profile.phone_number}
                 photoUrl={profile.photo_url}
               />
-
-              <Link to="/new-chat" state={{offerId: offerId}}>
-                 Start a new chat </Link>
             </div>
           )}
           {currentUser?.uid === offer.owner_id ? (
@@ -117,7 +148,8 @@ const OfferDetailsPage = () => {
           ) : (
             <button
               className="btn btn-primary"
-              onClick={() => navigate(`/${PATHS.CHATS}/${offer.owner_id}`)}
+              onClick={startChat}
+              disabled={!currentUser}
             >
               {labels.CONTACT_SELLER}
             </button>

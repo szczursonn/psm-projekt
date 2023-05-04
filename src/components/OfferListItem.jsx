@@ -2,20 +2,22 @@ import { NO_PHOTO_URL } from "../consts";
 import { labels } from "../labels";
 import { formatCurrency, formatDaysAgo, getOfferSubtitle } from "../utils";
 
-const OfferListItem = ({ offer, onClick }) => {
+const OfferListItem = ({ offer, onClick = () => {}, showPhoto = true }) => {
   const subtitle = getOfferSubtitle(offer);
 
   return (
     <div className="col-lg-2 col-md-4 col-sm-12">
       <div className="card mt-4" onClick={onClick}>
-        <img
-          src={offer.photo_url || NO_PHOTO_URL}
-          className="card-img-top"
-          style={{
-            height: "200px",
-            objectFit: "cover",
-          }}
-        ></img>
+        {showPhoto && (
+          <img
+            src={offer.photo_url || NO_PHOTO_URL}
+            className="card-img-top"
+            style={{
+              height: "200px",
+              objectFit: "cover",
+            }}
+          />
+        )}
         <div className="card-body">
           <h5 className="card-title">
             {offer.manufacturer} {offer.model}

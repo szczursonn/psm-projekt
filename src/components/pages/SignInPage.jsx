@@ -9,9 +9,8 @@ import {
 import { firebaseApp } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { labels } from "../../labels";
-import { doc, setDoc } from "firebase/firestore"; 
-import { getFirestore, collection } from "firebase/firestore";
-import { useCollection } from "react-firebase-hooks/firestore";
+import { doc, setDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 
 const authErrors = {
   "auth/user-not-found": labels.AUTH_ERRORS.USER_NOT_FOUND,
@@ -28,9 +27,6 @@ const MODE = {
 };
 
 const SignInPage = () => {
-  const [userSnapshot, _l, _e] = useCollection(
-    collection(getFirestore(firebaseApp), "users"));
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [mode, setMode] = useState(MODE.LOGIN);
@@ -63,30 +59,6 @@ const SignInPage = () => {
     } else {
       signInWrapper(() =>
         createUserWithEmailAndPassword(getAuth(firebaseApp), email, password)
-        );
-
-        const auth = getAuth(firebaseApp);
-        auth.onAuthStateChanged((user) => {
-          if (user) {
-            const addUser = async (user) => {
-              const db = getFirestore(firebaseApp);
-
-              const uid = user.uid;
-              const name = user.displayName;
-              const email = user.email;
-
-              await setDoc(
-                doc(db, "profiles", uid),
-                {
-                  email: email,
-                  name: name,
-                  phone_number: "",
-                }
-              );
-            };
-            addUser(user);
-          }
-      }
       );
     }
   };
@@ -95,29 +67,6 @@ const SignInPage = () => {
     signInWrapper(() =>
       signInWithPopup(getAuth(firebaseApp), new GoogleAuthProvider())
     );
-
-    const auth = getAuth(firebaseApp);
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        const addUser = async (user) => {
-          const db = getFirestore(firebaseApp);
-
-          const uid = user.uid;
-          const name = user.displayName;
-          const email = user.email;
-
-          await setDoc(
-            doc(db, "profiles", uid),
-            {
-              email: email,
-              name: name,
-              phone_number: "",
-            }
-          );
-        };
-        addUser(user);
-      }
-    });
   };
 
   return (

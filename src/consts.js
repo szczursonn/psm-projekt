@@ -4,8 +4,7 @@ export const PATHS = {
     SIGN_IN: 'sign-in',
     OFFER_DETAILS: 'offers',
     OFFER_CREATE: 'offer-create',
-    CHATS: 'chat',
-    NEW_CHAT: 'new-chat',
+    CHATS: 'chats',
     PROFILE: 'profile'
 };
 

@@ -81,5 +81,10 @@ export const labels = {
         YEAR_DESC: 'Year (descending)',
         MILES_ASC: 'Mileage (ascending)',
         MILES_DESC: 'Mileage (descending)'
-    }
+    },
+    LOG_IN_TO_ACCESS: 'Log in to access this page',
+    SELECT_CHAT: 'Select chat',
+    SEND: 'Send',
+    NO_MESSAGES_HINT: 'No messages yet!',
+    NEW_MESSAGE_PLACEHOLDER: 'Put in your message here!'
 }
