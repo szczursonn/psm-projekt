@@ -9,7 +9,7 @@ const ViewChat = ({conversation_id, offer_id, members, messages}) => {
     const auth = getAuth(firebaseApp);
     const [user] = useAuthState(auth);
     const [userSnapshot, _l, _e] = useCollection(
-        collection(getFirestore(firebaseApp), "users"));
+        collection(getFirestore(firebaseApp), "profiles"));
     const [formValue, setFormValue] = useState('');
 
     const db = getFirestore(firebaseApp);
@@ -19,7 +19,7 @@ const ViewChat = ({conversation_id, offer_id, members, messages}) => {
         e.preventDefault();
         await updateDoc(chatRef, {messages: [...messages, {
             content: formValue,
-            sender: "i9TYdeDZPAL4XptDQiQT",
+            sender: user.uid,
             created_at: Timestamp.now(),
         }]})
         setFormValue('');

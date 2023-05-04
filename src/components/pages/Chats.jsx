@@ -14,7 +14,7 @@ const Chats = () => {
         console.log(user.uid);
     }
 
-    let uid = "i9TYdeDZPAL4XptDQiQT";
+    let uid = user.uid;
     let db = getFirestore(firebaseApp);
 
     const chats = collection(db, 'chats');
