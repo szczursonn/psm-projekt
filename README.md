@@ -23,7 +23,7 @@
 - Kamera (przy dowaniu zdjęcia do oferty lub profilu)
 - GPS (przy dodawaniu oferty)
 - Głośnik (przy otrzymywaniu wiadomości)
-- Wibracje (przy otrzymywaniu wiadomości)
+- Wibracje (przy otrzymywaniu wiadomości)  
   **⚠️ Aby wibracje działały, należy po załadowaniu strony wykonać jakąkolwiek interakcję! ⚠️**
   https://developer.mozilla.org/en-US/docs/Web/Security/User_activation#sticky_activation
 
