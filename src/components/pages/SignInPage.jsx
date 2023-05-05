@@ -9,8 +9,6 @@ import {
 import { firebaseApp } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 import { labels } from "../../labels";
-import { doc, setDoc } from "firebase/firestore";
-import { getFirestore } from "firebase/firestore";
 
 const authErrors = {
   "auth/user-not-found": labels.AUTH_ERRORS.USER_NOT_FOUND,
@@ -39,7 +37,7 @@ const SignInPage = () => {
     setError(null);
     try {
       await fn();
-      navigate(-1);
+      navigate("/");
     } catch (err) {
       setError(err);
       console.error(err);
