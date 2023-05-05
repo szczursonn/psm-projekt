@@ -7,7 +7,9 @@
 - Michał Szczurek
 - Mateusz Puto
 
-### [Live demo](https://psm-firebase-4f74c.web.app/) @Firebase Hosting
+## [Live demo](https://psm-firebase-4f74c.web.app/)
+
+#### [Stuff do prezentacji](/docs/docs.md)
 
 ### Użyte usługi Firebase
 
@@ -24,7 +26,7 @@
   **⚠️ Aby wibracje działały, należy po załadowaniu strony wykonać jakąkolwiek interakcję! ⚠️**
   https://developer.mozilla.org/en-US/docs/Web/Security/User_activation#sticky_activation
 
-## Platforma programistyczna
+### Platforma programistyczna
 
 - React.js poprzez Vite
   - React Router v6
