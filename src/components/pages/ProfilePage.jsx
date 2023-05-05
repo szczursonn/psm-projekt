@@ -1,10 +1,18 @@
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useCollection, useDocumentData } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "../../firebase";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  doc,
+  getFirestore,
+  setDoc,
+  collection,
+  query,
+  where,
+} from "firebase/firestore";
 import FullPageLoadingSpinner from "../FullPageLoadingSpinner";
 import ProfilePageCreateForm from "../ProfilePageCreateForm";
+import OfferListItem from "../OfferListItem";
 import { labels } from "../../labels";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +35,19 @@ const ProfilePage = () => {
   );
   const loading = loadingUser || loadingProfile;
   const error = userError || profileError;
+
+  const [offersSnapshot] = useCollection(
+    currentUser
+      ? query(
+          collection(getFirestore(firebaseApp), COLLECTIONS.OFFERS),
+          where("owner_id", "==", currentUser.uid)
+        )
+      : null
+  );
+  const offers = offersSnapshot?.docs.map((doc) => ({
+    ...doc.data(),
+    _id: doc.id,
+  }));
 
   const [saving, setSaving] = useState(false);
   const [savingError, setSavingError] = useState(null);
@@ -65,6 +86,10 @@ const ProfilePage = () => {
   };
 
   const navigate = useNavigate();
+
+  const onOfferClick = (offerId) => {
+    navigate(`/${PATHS.OFFER_DETAILS}/${offerId}`);
+  };
 
   if (loading) {
     return <FullPageLoadingSpinner />;
@@ -109,6 +134,21 @@ const ProfilePage = () => {
           >
             {labels.UPDATE_PROFILE}
           </button>
+          {offers && offers.length > 0 && (
+            <>
+              <hr />
+              <h3>{labels.YOUR_OFFERS}</h3>
+              <div className="row align-items-start ms-1 me-1">
+                {offers.map((offer) => (
+                  <OfferListItem
+                    key={offer._id}
+                    offer={offer}
+                    onClick={() => onOfferClick(offer._id)}
+                  />
+                ))}
+              </div>
+            </>
+          )}
         </>
       )}
       {!loading && !error && !profile && !isEditMode && (

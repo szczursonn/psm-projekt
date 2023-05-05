@@ -86,5 +86,6 @@ export const labels = {
     SELECT_CHAT: 'Select chat',
     SEND: 'Send',
     NO_MESSAGES_HINT: 'No messages yet!',
-    NEW_MESSAGE_PLACEHOLDER: 'Put in your message here!'
+    NEW_MESSAGE_PLACEHOLDER: 'Put in your message here!',
+    YOUR_OFFERS: 'Your offers'
 }
