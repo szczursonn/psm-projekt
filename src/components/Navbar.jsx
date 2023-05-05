@@ -59,6 +59,7 @@ const Navbar = () => {
     if (currentPath === PATHS.CHATS) {
       clearUnreadMessages();
     } else if (unreadMessagesAmount > 0) {
+      new Audio("notification-sound.mp3").play();
       navigator.vibrate([400, 200, 400]);
     }
   }, [unreadMessagesAmount]);
