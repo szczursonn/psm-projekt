@@ -12,12 +12,7 @@ import { useDocumentData } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "../../firebase";
 import OfferLocationMap from "../OfferLocationMap";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  formatCurrency,
-  formatDaysAgo,
-  getOfferSubtitle,
-  FUEL_TYPE_TO_LABEL,
-} from "../../utils";
+import { formatCurrency, formatDaysAgo, getOfferSubtitle } from "../../utils";
 import { getLocationByOsmId } from "../../locationAPI";
 import { useEffect, useState } from "react";
 import { labels } from "../../labels";
@@ -213,7 +208,7 @@ const OfferDetailsPage = () => {
               {offer.fuel_type && (
                 <tr>
                   <td>{labels.FUEL_TYPE}</td>
-                  <td>{FUEL_TYPE_TO_LABEL[offer.fuel_type]}</td>
+                  <td>{labels.FUEL_TYPES[offer.fuel_type]}</td>
                 </tr>
               )}
             </tbody>

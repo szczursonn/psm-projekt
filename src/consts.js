@@ -19,6 +19,14 @@ export const STORAGE_DIRECTORIES = {
     PROFILE_PHOTOS: 'profile_photos'
 }
 
+export const FUEL_TYPES = {
+    PETROL: 'petrol',
+    DIESEL: 'diesel',
+    LPG: 'lpg',
+    HYBRID: 'hybrid',
+    ELECTRIC: 'electric'
+}
+
 export const CURRENCY_UNIT = 'EUR';
 
 export const NO_PHOTO_URL = "/no-photo.jpg";

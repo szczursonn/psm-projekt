@@ -1,5 +1,5 @@
-import { labels } from "./labels"
 import { CURRENCY_UNIT } from "./consts";
+import { labels } from "./labels";
 
 export const getUserLocale = () => navigator.language || 'en-us';
 
@@ -14,18 +14,10 @@ export const formatDaysAgo = (date) => {
 export const getOfferSubtitle = (offer) => [
     offer.year,
     typeof offer.miles === "number" && `${offer.miles} km`,
-    FUEL_TYPE_TO_LABEL[offer.fuel_type],
+    labels.FUEL_TYPES[offer.fuel_type],
 ]
     .filter((x) => x)
     .join(" · ");
-
-export const FUEL_TYPE_TO_LABEL = {
-    'petrol': labels.FUEL_TYPES.PETROL,
-    'diesel': labels.FUEL_TYPES.DIESEL,
-    'lpg': labels.FUEL_TYPES.LPG,
-    'hybrid': labels.FUEL_TYPES.HYBRID,
-    'electric': labels.FUEL_TYPES.ELECTRIC,
-};
 
 export const sortBy = (field, reverse = false) => (a, b) => {
     a = parseFloat(a[field]);

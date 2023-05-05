@@ -1,6 +1,6 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import { labels } from "../labels";
-import { FUEL_TYPE_TO_LABEL } from "../utils";
+import { FUEL_TYPES } from "../consts";
 
 const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
   useImperativeHandle(ref, () => ({
@@ -99,9 +99,9 @@ const OfferCreateBasicInfoStage = forwardRef(({ offerToCreate }, ref) => {
           defaultValue={offerToCreate.fuelType}
         >
           <option value={""}>{labels.SELECT_FUEL_TYPE}</option>
-          {["petrol", "diesel", "lpg", "hybrid", "electric"].map((fuelType) => (
+          {Object.values(FUEL_TYPES).map((fuelType) => (
             <option value={fuelType} key={fuelType}>
-              {FUEL_TYPE_TO_LABEL[fuelType]}
+              {labels.FUEL_TYPES[fuelType]}
             </option>
           ))}
         </select>

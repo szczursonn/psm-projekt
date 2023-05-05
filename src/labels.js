@@ -1,4 +1,4 @@
-import { PATHS } from "./consts";
+import { FUEL_TYPES, PATHS } from "./consts";
 
 export const labels = {
     BASIC_INFO: 'Basic info',
@@ -20,11 +20,11 @@ export const labels = {
     HORSEPOWER: 'Horsepower',
     FUEL_TYPE: 'Fuel type',
     FUEL_TYPES: {
-        PETROL: 'Petrol',
-        DIESEL: 'Diesel',
-        LPG: 'LPG',
-        HYBRID: 'Hybrid',
-        ELECTRIC: 'Electric'
+        [FUEL_TYPES.PETROL]: 'Petrol',
+        [FUEL_TYPES.DIESEL]: 'Diesel',
+        [FUEL_TYPES.LPG]: 'LPG',
+        [FUEL_TYPES.HYBRID]: 'Hybrid',
+        [FUEL_TYPES.ELECTRIC]: 'Electric'
     },
     AUTH_ERRORS: {
         USER_NOT_FOUND: "User was not found",
