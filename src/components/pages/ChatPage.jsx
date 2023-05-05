@@ -75,7 +75,7 @@ const ChatPage = () => {
             ))}
           </select>
           <hr />
-          {currentChat && <ChatBox chat={currentChat} />}
+          {currentChat && currentUser && <ChatBox chat={currentChat} />}
         </>
       )}
     </div>
