@@ -38,6 +38,7 @@ const Layout = () => {
       <React.Suspense fallback={<FullPageLoadingSpinner />}>
         <Outlet />
       </React.Suspense>
+      <div className="mb-2" />
     </>
   );
 };

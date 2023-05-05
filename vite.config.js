@@ -5,7 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), VitePWA({
-    registerType: "prompt", includeAssets: ['favicon.png', 'github.png', 'google.svg'], manifest: {
+    registerType: "prompt", includeAssets: ['chat-icon.svg', 'favicon.png', 'google.svg', 'mail-icon.svg', 'no-photo.jpg', 'phone-icon.svg', 'user-profile-icon.svg'], manifest: {
       name: 'Car Auction App',
       short_name: 'CAA',
       description: 'App for selling cars',

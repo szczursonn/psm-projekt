@@ -9,9 +9,30 @@
 
 ### [Live demo](https://psm-firebase-4f74c.web.app/) @Firebase Hosting
 
-## Wymagania do developowania
+### Użyte usługi Firebase
 
-- Node.js
+- Firestore
+- Authentication
+- Storage
+- Hosting
+
+### Użyte fizyczne cechy urządzenia
+
+- Kamera (przy dowaniu zdjęcia do oferty lub profilu)
+- GPS (przy dodawaniu oferty)
+- Wibracje (przy otrzymywaniu wiadomości)  
+  **⚠️ Aby wibracje działały, należy po załadowaniu strony wykonać jakąkolwiek interakcję! ⚠️**
+  https://developer.mozilla.org/en-US/docs/Web/Security/User_activation#sticky_activation
+
+## Platforma programistyczna
+
+- React.js poprzez Vite
+  - React Router v6
+  - Firebase Web SDK v9
+  - React Firebase Hooks
+  - React Leaflet
+- Bootstrap CSS (bez JS)
+- vite-plugin-pwa
 
 ## Instalacja
 

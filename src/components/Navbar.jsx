@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { PATHS, SITE_TITLE } from "../consts";
 import { labels } from "../labels";
 import { useEffect, useState } from "react";
+import { useChatNotifications } from "../hooks/useChatNotifications";
 
 const Navbar = () => {
   const [dropdownOpened, setDropdownOpened] = useState(false);
@@ -40,16 +41,27 @@ const Navbar = () => {
     setDropdownOpened(false);
   };
 
-  const navbarLabel =
-    labels.PATHS[
-      Object.values(PATHS).find((path) =>
-        location.pathname.substring(1).startsWith(path)
-      )
-    ];
+  const [unreadMessagesAmount, clearUnreadMessages] = useChatNotifications();
+
+  const currentPath = Object.values(PATHS).find((path) =>
+    location.pathname.substring(1).startsWith(path)
+  );
+  const navbarLabel = labels.PATHS[currentPath];
 
   useEffect(() => {
     document.title = `${SITE_TITLE}${navbarLabel ? ` | ${navbarLabel}` : ""}`;
-  }, [navbarLabel]);
+    if (currentPath === PATHS.CHATS) {
+      clearUnreadMessages();
+    }
+  }, [currentPath]);
+
+  useEffect(() => {
+    if (currentPath === PATHS.CHATS) {
+      clearUnreadMessages();
+    } else if (unreadMessagesAmount > 0) {
+      navigator.vibrate([400, 200, 400]);
+    }
+  }, [unreadMessagesAmount]);
 
   return (
     <>
@@ -75,11 +87,17 @@ const Navbar = () => {
                 {user ? (
                   <>
                     <a
-                      className="d-flex align-items-center me-4"
+                      className="d-flex align-items-center me-4 position-relative"
                       href={undefined}
                       onClick={goToChats}
                     >
                       <img src="/chat-icon.svg" height="35" />
+                      {unreadMessagesAmount > 0 &&
+                        currentPath !== PATHS.CHATS && (
+                          <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {unreadMessagesAmount}
+                          </span>
+                        )}
                     </a>
                     <div className="dropdown">
                       <button
